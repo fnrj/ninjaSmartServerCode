@@ -1,0 +1,19 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #ECBB1B;
+}
+
+a {
+  	color: black;
+	text-decoration:none
+}
+.getStarted{
+  	font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+	display: block;
+    	margin: auto;
+	padding: 20px;
+    	width: 200px;	
+	text-align: center;
+    	border: 3px solid black;
+}
