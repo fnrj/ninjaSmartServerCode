@@ -75,7 +75,8 @@ function tick() {
 	var text = [];
 	for (var name in groups) {
 		var group = groups[name]
-		$.get("http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
+		//$.get("http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
+		$.get("/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
 			var dataObject = JSON.parse(text);
 			console.log(dataObject.devices[1].uv);
 			group.data.push(dataObject.devices[1].uv);
