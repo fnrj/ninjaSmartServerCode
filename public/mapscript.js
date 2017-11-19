@@ -20,7 +20,8 @@ function liveStreamMap(map) {
 	var dataMarker = undefined;
 	console.log(dataMarker);
 	var text = [];
-	$.get("http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
+	//$.get("http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
+	$.get("/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
 		var dataObject = JSON.parse(text);
 		const coordinates = new Object();
 		coordinates.lat = dataObject.devices[1].longitude;

@@ -2,7 +2,8 @@ var text = [];
 setInterval(postStream, 21000);
 
 function postStream() {
-			$.get("http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
+			//$.get("http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
+			$.get("/devices/status/all?userEmail=testElephant@gmail.com", text, function(text) {
 				var dataObject = JSON.parse(text);
 				var addDate = new Date(dataObject.devices[1].lastContact);
 				var addRow = $('<tr>');
