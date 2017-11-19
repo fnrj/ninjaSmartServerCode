@@ -1,65 +1,60 @@
 /* Reset the style sheet.*/
 * {
-margin:0;
-padding:0;
-          border: medium none;
-
+	margin:0;
+	padding:0;
+	border: medium none;
 }
 
-.navelmt {
-    display: inline-block;
-    /*background: url(res/home.svg) no-repeat center;*/
-    padding: 12px 15px;
-    font-family: Arial, sans-serif;
-    transition: background-color .25s ease-in;
-}
-
-.navelmt:hover{
-    color: white;
-    background-color: #1F4856;
-}
-
-.pagewrap{
-    min-height: 100%;
-    position: relative;
-}
-
-.navbar a {
-    color: black;
-    font-size: 15pt;
-    text-decoration: none;
-}
-
-
-.contentpane{
-    padding-left: 50px;
-    font-family: Arial;
-    vertical-align: center;
-    line-height: 300px;
-    width: 100%;
-    height: 40%;
-    position: absolute;
-    display: block;
-    text-align: center;
-    color: white;
-    font-size: 32pt; 
-    background: rgba(0,0,0,.6);     
-}
-
+/*GENERAL*/
 body {
-    color:white;    
-    height: 100%;
+	color:white;    
+	height: 100%;
 }
 
 #background{
-    height:auto;
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-    width: 100%;
-    position: fixed;
+	height:auto;
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+	width: 100%;
+	position: fixed;
 }
 
+h3{
+	color: black;
+	padding-bottom: 15px;
+}
+
+html{
+	height: 100%;
+}
+
+/*END GENERAL*/
+
+/* NAV BAR*/
+.navelmt {
+	display: inline-block;
+	/*background: url(res/home.svg) no-repeat center;*/
+	padding: 12px 15px;
+	font-family: Arial, sans-serif;
+	transition: background-color .25s ease-in;
+}
+
+.navelmt:hover{
+	color: white;
+	background-color: #1F4856;
+}
+
+.pagewrap{
+	min-height: 100%;
+	position: relative;
+}
+
+.navbar a {
+	color: black;
+	font-size: 15pt;
+	text-decoration: none;
+}
 
 .navbar {
 	display: block;
@@ -68,127 +63,280 @@ body {
 }
 
 header{
-    background-color: #fda84f;
-    width: 100%;   
+	background-color: #fda84f;
+	width: 100%;   
+}
+/*END NAV BAR */
+
+/* CONTENT PANE */
+.contentpane{
+	font-family: Arial;
+	vertical-align: center;
+	line-height: 300px;
+	width: 100%;
+	height: 40%;
+	position:relative;
+	display: block;
+	text-align: center;
+	color: white;
+	font-size: 32pt; 
+	background: rgba(0,0,0,.6);     
 }
 
+/*END CONTENT PANE */
+
+/*UV INTENSITY*/
+.uvintensity{
+	position: relative;
+	padding-top: 50px;
+	width: 100%;
+	text-align: center;
+	color: #fda84f;
+	text-shadow: 3px 3px 75px black;
+}
+
+.graph{
+	position: relative;
+	padding-top: 25px;
+	width: 200%;
+	display: block;
+	padding-left: 425px;
+}
+
+/* Styling attributed to
+	Source: http://bl.ocks.org/simenbrekken/6634070
+	Author: Simen Brekken
+*/
+.graph .axis {
+	stroke-width: 1;
+}
+
+.graph .axis .tick line {
+        stroke: black;
+}
+
+.graph .axis .tick text {
+        fill: black;
+        font-size: 0.7em;
+}
+
+.graph .axis .domain {
+        fill: none;
+        stroke: black;
+}
+
+.graph .group {
+        fill: none;
+        stroke: black;
+        stroke-width: 1.5;
+}
+
+/*END of Styling attributed to Simen Brekken... */
+/* END UV INTENSITY */
+
+/* MAP LOCATION */
+.maplocation{
+	position: relative;
+	padding-top: 25px;
+	width: 100%;
+	text-align: center;
+	color: #fda84f;
+	text-shadow: 3px 3px 75px black;
+}
+
+/* Some styling attributed to HERE
+	Source: https://developer.here.com/api-explorer/maps-js/v3.0/markers/markers-on-the-map
+	Author: HERE
+*/
+
+#map{
+	position: relative;
+	padding-top: 25px;	
+	width: 40%;
+	height: 400px;
+	display: block;
+	padding-left: 400px;
+	padding-bottom: 25px;
+}
+/*END of Styling attributed to HERE... */
+/* END MAP LOCATION*/
+
+/* AGGREGATE DATA */
+.aggregatedata{
+	position: relative;
+	padding-top: 25px;
+	width: 100%;
+	text-align: center;
+	color: #fda84f;
+	text-shadow: 3px 3px 75px black;
+}
+
+postdata {
+	padding: 10px 10px 10px 10px;
+	position: absolute;
+	align: center;
+	width: 100%;
+}
+
+table, #headTable, #streamData, th, td {
+	padding: 10px 10px 10px 10px;
+	position: relative;
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 100%;
+	text-align: center;
+	align: center;
+}
+
+td#a, th#a, td#b, th#b {
+	padding: 10px 10px 10px 10px;
+	width: 90px;
+	text-align: center;
+	color: black;
+	align: center;
+}
+
+td#c, th#c {
+	padding: 10px 10px 10px 10px;
+	width: 70px;
+	text-align: center;
+	color: black;
+	align: center;
+}
+
+td#d, th#d {
+	padding: 10px 10px 10px 10px;
+	width: 480px;
+	text-align: center;
+	color: black;
+	align: center;
+}
+
+/* END AGGREGATE DATA */
+
+/* FOOTER */
 footer{
-    width: 100%;       
-    height: 20px;
-    font-size: 18px;
-    padding: 0px 0px 10px 10px;
-    position: absolute;
-    bottom: 0px;
-    background: rgba(0,0,0,.6);
+	width: 100%;       
+	height: 20px;
+	font-size: 18px;
+	padding: 0px 0px 10px 10px;
+	position: relative;
+	bottom: 0px;
+	background: rgba(0,0,0,.6);
 }
+/* END FOOTER */
 
-html{
-    height: 100%;
-}
-
+/* LOG IN */
 /* for 
 izing */
 @media(max-width: 768px){
-    header #navhead{
-    	float:none;
-    	text-align: center;
-    }
+	header #navhead{
+    		float:none;
+    		text-align: center;
+    	}
 }
-
 
 .loginPanel
 {
-    /*fix the top left corner at center*/
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    /*Translate to actually center on the page*/
-    transform: translate(-50%, -50%);
+	/*fix the top left corner at center*/
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	/*Translate to actually center on the page*/
+	transform: translate(-50%, -50%);
 
-    /*Physical constraints*/
-    width: 25%;
-    height: 33%;
+	/*Physical constraints*/
+	width: 25%;
+	height: 33%;
 
-    /*Visibility and panel coloring*/
-    background-color: rgba(0,0,0,.7);
+	/*Visibility and panel coloring*/
+	background-color: rgba(0,0,0,.7);
 }
 
-
 .loginPanel label{
-    display: block;
-    float:left;
-    clear:left;
+	display: block;
+	float:left;
+	clear:left;
 }
 
 form input{
-    display: block;
+	display: block;
 }
-
-
 
 .loginPanel input[type="text"], input[type="password"]
 {
-    width: 80%;
-    margin: 20px 0;
-    font-size: 15pt;
-    border: none;
-    background: rbga(0,0,0,.6);
+	width: 80%;
+	margin: 20px 0;
+	font-size: 15pt;
+	border: none;
+	background: rbga(0,0,0,.6);
 }
 
 /*Class added by javascript, use for blurring the background on hover.*/
 .blur{
-      -webkit-filter: blur(5px);
-      -moz-filter: blur(5px);
-      -o-filter: blur(5px);
-      -ms-filter: blur(5px);
-      filter: blur(5px);
-      transition: filter 3s;
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-o-filter: blur(5px);
+	-ms-filter: blur(5px);
+	filter: blur(5px);
+	transition: filter 3s;
 }
 
 .loginPanel input[type="submit"]
 {
-    font-size: 13pt;
-    width: 80%;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: rgba(255, 171, 82, .4);
-    border-color: rgba(255,171, 82,.6);
-    border-width: 2px;
-    border: 10px 10px;
-    border-style: solid;
-    margin-bottom: 10px;    
-    font-family: Arial, sans-serif;
+	font-size: 13pt;
+	width: 80%;
+	border-radius: 10px;
+	padding: 5px 10px;
+	background-color: rgba(255, 171, 82, .4);
+	border-color: rgba(255,171, 82,.6);
+	border-width: 2px;
+ 	border: 10px 10px;
+	border-style: solid;
+	margin-bottom: 10px;    
+	font-family: Arial, sans-serif;
 }
 
 .loginPanel input[type="submit"]:hover, a:hover{
-    opacity: .8;
+	opacity: .8;
 }
 
 .loginPanel label{
-    float:left; clear:left
+	float:left; clear:left
 }
 
 .greeting{
-    color: rgb(255, 171, 82);
-    font-size: 20pt;
-    margin-top: 20px;
-    text-align: center;
+	color: rgb(255, 171, 82);
+	font-size: 20pt;
+	margin-top: 20px;
+	text-align: center;
 }
 
 .buttonLink{
-    color: black;
-    display: block;
-    padding: 5px 0;    
-    background-color: rgba(255, 171, 82, .4);
-    border-color: rgba(255,171, 82,.6);
-    border-radius: 10px;
-    font-size: 13pt;
-    width: 80%;
-    border-width: 2px;
-    border: 10px 10px;
-    border-style: solid;
-    margin-top: 10px;
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-
+	color: black;
+	display: block;
+	padding: 5px 0;    
+	background-color: rgba(255, 171, 82, .4);
+	border-color: rgba(255,171, 82,.6);
+	border-radius: 10px;
+	font-size: 13pt;
+	width: 80%;
+	border-width: 2px;
+	border: 10px 10px;
+	border-style: solid;
+	margin-top: 10px;
+	text-decoration: none;
+	font-family: Arial, sans-serif;
 }
+/* END LOG IN*/
+
+/* OPEN SLOT */
+.openslot{
+	position: relative;
+	padding-top: 25px;
+	width: 100%;
+	text-align: center;
+	color: #fda84f;
+	text-shadow: 3px 3px 75px black;
+}
+/* END OPEN SLOT */

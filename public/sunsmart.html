@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Sunsmart - Your Live Sensor Data</title>
+
+<!-- CSS Stylesheet -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+<!-- Script for jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+<!-- Script for D3 Charts -->
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+
+<!-- Scripts for Map with Streamed Coordinate Markers -->
+	<link rel="stylesheet" type="text/css" href="https://js.cit.api.here.com/v3/3.0/mapsjs-ui.css" />
+	<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-core.js"></script>
+	<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-service.js"></script>
+	<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+	<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+</head>
+
+<body>
+	<div class="pagewrap">
+<!-- NAV BAR -->
+		<header>
+	    		<div class = "navbar" id = "navhead">
+				<a href="index.html" class = "navelmt">Home</a>
+				<a href="about.html" class = "navelmt">About</a>
+				<a href="products.html" class = "navelmt">Products</a>    	
+				<a href="contact.html" class = "navelmt">Contact</a>
+				<a href="login.html" class = "navelmt">Login</a>      	
+	   		</div>
+	    	</header>
+<!-- END NAV BAR -->
+<!-- CONTENT PANE -->
+		<div class="contentpane">
+	    		Streaming Location and Ultraviolet Radiation Sensor Data
+		</div>
+<!-- END CONTENT PANE -->
+<!-- UV INTENSITY -->
+		<div class="uvintensity">
+			<h2>Ultraviolet Radiation Intensity (nm) over Time (s)</h2>
+		</div>
+	
+		<div class="graph">
+		</div>
+		<script src="uvchart.js"></script>
+<!-- END UV INTENSITY -->
+<!-- MAP LOCATION -->
+		<div class="maplocation">
+			<h2>Map with Live Coordinates</h2>
+		</div>
+  		
+		<div id="map" />
+			<script src="mapscript.js"></script>
+		</div>
+<!-- END MAP LOCATION -->
+<!-- AGGREGATE DATA -->
+		<div class="aggregatedata">
+			<h2>Aggregated Raw Data over Streaming Duration</h2>
+			<h3>(Least to Most Recent Stream)</h3>
+		</div>
+
+		<div id="postdata">
+			<script src="postdata.js"></script>
+			<table id="headTable">
+				<tr>
+					<th id="a">Latitude (&deg;)</th>
+					<th id="b">Longitude (&deg;)</th>
+					<th id="c">UV (nm)</th>
+					<th id="d">Time of Capture</th>	
+				</tr>
+			</table>
+			<table id="streamData"></table>
+		</div>
+<!-- END AGGREGATE DATA -->
+		<div class="openslot">
+
+		</div>
+
+<!-- FOOTER -->
+		<footer>
+	    		&#9400; 2018 SunSmart
+		</footer>
+<!-- END FOOTER -->
+	</div>
+</body>
+</html>
