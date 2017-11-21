@@ -7,7 +7,7 @@
 
 /*GENERAL*/
 body {
-	color:white;    
+	color:white;  
 	height: 100%;
 }
 
@@ -253,6 +253,10 @@ izing */
 	background-color: rgba(0,0,0,.7);
 }
 
+.hidden{
+	display:none;
+}
+
 .loginPanel label{
 	display: block;
 	float:left;
@@ -340,3 +344,14 @@ form input{
 	text-shadow: 3px 3px 75px black;
 }
 /* END OPEN SLOT */
+
+
+
+
+
+#registerLink{
+    position: absolute;
+    right: 5px;
+    text-decoration: none;
+    color: #FFF;
+}

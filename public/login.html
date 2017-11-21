@@ -6,8 +6,10 @@
 	<link rel="stylesheet" type="text/css" href="style.css">	
 </head>
 <body>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src = "script.js"></script>
+
+    <!--<script type="text/javascript" src = "script.js"></script>-->
     <img id="background" src="res/summer.jpg" border="0" alt="">
     <div class="pagewrap">
 	    <!-- Container holding navigation bar -->    	
@@ -20,26 +22,44 @@
 				<a href="login.html" class = "navelmt">Login</a>   	
 	   		</div>
 	    </header>
-	    <!-- Container holding login panel -->
+	    <!-- Container holding login/registration panels -->
 	    <div class = "container">
-	    	<div class = "loginPanel" onmouseover = "blurBackground()" onmouseleave ="sharpenBackground()">
+
+	    	<!-- login panel, shown by default -->
+	    	<div class = "loginPanel" id="login" onmouseover = "blurBackground()" onmouseleave ="sharpenBackground()">
 	    		<center>
 	    			<div class="greeting">
 	    				Please Sign In
 	    			</div>
-			    	<form>
-			    		<input type="text" name="Username" placeholder="Email" id="testing">
+			    	<form method="post" action="">
+			    		<input type="text" name="Username" placeholder="Email">
 			    		<input type="password" name="Password" placeholder="Password">
 			    		<input type="submit" name="Submit" value="Sign in">
 			    	</form>	    
-			    		<a href="http://www.google.com" class = "buttonLink">Create an Account</a>			    		
+			    		<a href="#" class = "buttonLink" id = "buttonLink">Create an Account</a>			    		
 				</center>
 	    	</div>
-	    </div>
-	    <div class="registerform">
-	    	
-	    	
+	    	<!-- registration panel, hidden by default -->
+	    	<div class="hidden loginPanel" id="register" onmouseover = "blurBackground()">
+			    <a href="#"  id = "registerLink">✖</a>			    		
+	    		<center>
+	    			<div class="greeting">
+	    				Create an Account
+	    			</div>	    			
+			    	<form method="post" action="" id="signup">
+			    		<input type="text" name="email" placeholder="Email" id="registerEmail">			    		
+			    		<input type="password" name="Password" placeholder="Password" id="registerPassword">
+			    		<input type="submit" name="Submit" value="Create my account">			    		
+			    	</form>	   	    			
+	    		</center>
+	    	</div>
+	    </div>	    	
 	    </div>
     </div>
 </body>
 </html>
+
+
+
+
+
