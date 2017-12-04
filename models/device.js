@@ -2,8 +2,10 @@ var db = require("../db");
 
 var deviceSchema = new db.Schema({
     apikey:       String,
-    deviceId:     String,
+    devices:     [String], //{[String], validate: [deviceCheck, 'Invalid device configuration!']}, 
     userEmail:    String,
+    active:       Boolean, 
+    password:     String, //make me more secure when hashing is added!
     lastContact:  { type: Date, default: Date.now },
     longitude:	Number,
     latitude:	Number,
@@ -11,6 +13,12 @@ var deviceSchema = new db.Schema({
     zipCode:	Number,// nearby zipCode from google Geocoding
     address: 	String //(nearby address from google Geocoding)
 });
+
+//function deviceCheck(arr){
+	/* Check that all devices registered to a user are unique and that all users
+	 * are registered to at least one device. */
+//	return (arr === undefined || arr.length == 0) && (arr.length == new Set(arr).size);
+//}
 
 var Device = db.model("Device", deviceSchema);
 

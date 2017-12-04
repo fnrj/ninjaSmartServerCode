@@ -1,8 +1,11 @@
 var mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/mydb", {
+var database = mongoose.connect("mongodb://localhost/sunsmart", {
    useMongoClient: true,
 });
+
+
+
 
 module.exports = mongoose;
 

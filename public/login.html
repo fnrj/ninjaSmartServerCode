@@ -31,9 +31,9 @@
 	    			<div class="greeting">
 	    				Please Sign In
 	    			</div>
-			    	<form method="post" action="">
-			    		<input type="text" name="Username" placeholder="Email">
-			    		<input type="password" name="Password" placeholder="Password">
+			    	<form method="POST" action="/devices/dashboard">
+			    		<input type="text" name="userEmail" placeholder="Email">
+			    		<input type="password" name="password" placeholder="Password">
 			    		<input type="submit" name="Submit" value="Sign in">
 			    	</form>	    
 			    		<a href="#" class = "buttonLink" id = "buttonLink">Create an Account</a>			    		
@@ -46,9 +46,10 @@
 	    			<div class="greeting">
 	    				Create an Account
 	    			</div>	    			
-			    	<form method="post" action="" id="signup">
-			    		<input type="text" name="email" placeholder="Email" id="registerEmail">			    		
-			    		<input type="password" name="Password" placeholder="Password" id="registerPassword">
+			    	<form method="POST" action="/devices/register" id="signup">
+			    		<input type="text" name="userEmail" placeholder="Email" id="registerEmail">			    		
+			    		<input type="text" name="deviceId" placeholder="Device ID" id="deviceId">			    		
+			    		<input type="password" name="password" placeholder="Strong password" id="registerPassword">
 			    		<input type="submit" name="Submit" value="Create my account">			    		
 			    	</form>	   	    			
 	    		</center>

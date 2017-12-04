@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Device = require("../models/device");
 
+
+
+
 // Function to generate a random apikey consisting of 32 characters
 function getNewApikey() {
     var newApikey = "";
@@ -10,9 +13,47 @@ function getNewApikey() {
     for (var i = 0; i < 32; i++) {
 	newApikey += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
     }
-
     return newApikey;
 }
+
+
+
+// Function for sending email (account verification)
+function sendMail(userEmail) {
+    emailBody = `<b>Thanks for signing up for Sunsmart!</b> 
+    To confirm your account, click the button below.
+    <form action="http://localhost:3000/devices/confirm/`+userEmail+`" method="POST">
+        <button type = "submit" name = "confirmation button">Confirm my account!</button>
+    </form>`
+
+    var transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'sunsmart.ece513@gmail.com',
+            pass: 'IoT2017!'
+        }
+    });
+    console.log('transporter created.');
+    var options = {
+        subject: 'Sunsmart Account Registration',
+        from: '"Sunsmart Team" <sunsmart.ece513@gmail.com>',
+        to: userEmail,
+        text: 'Welcome to Sunsmart!',
+        html: emailBody        
+    }
+    console.log('configured. Sending.');
+
+    transporter.sendMail(options, function(err, info){
+        if(err){
+            return console.log(err);
+        } else{
+            console.log('Message was sent successfully to %s', userEmail);
+        }
+    })
+}
+
 
 // Documentation for endpoints at: https://docs.google.com/document/d/1JscD6zSzdL7VYqShu37UaFyvOF-uRN5BAqr-0ns_tkM/edit
 
@@ -32,10 +73,10 @@ router.get('/status/:devid', function(req, res, next) {
     var userEmail = { "userEmail": req.query.userEmail };
     // Create query based on parameters deviceId
     if (deviceId == "all") {
-	var query = {};
+    	var query = {};
     }
     else {
-	var query = { "deviceId": deviceId };
+	   var query = { "deviceId": deviceId };
     }
     
     // Query the devices collection to returned requested documents
@@ -200,7 +241,6 @@ router.delete('/status/:devid', function(req, res, next) {
 
 // POST registers a new device given the device ID and user email
 router.post('/register', function(req, res, next) {
-
     var responseJson = {
         registered: false,
         message : "",
@@ -210,26 +250,32 @@ router.post('/register', function(req, res, next) {
 
     // Ensure the request includes both the deviceId and email parameters
     if( !req.body.hasOwnProperty("deviceId") || !req.body.hasOwnProperty("userEmail")) {
+        console.log('missing properties');
         responseJson.message = "Missing request parameters";
         res.status(400).send(JSON.stringify(responseJson));
         return;
     }
 
     // See if device is already registered
-    Device.findOne({ deviceId: req.body.deviceId }, function(err, device) {
+    Device.findOne({ userEmail: req.body.userEmail }, function(err, device) {
         if (device !== null) {
-            responseJson.message = "Device ID " + req.body.deviceId + " already registered.";
-            res.status(400).send(JSON.stringify(responseJson));
+            console.log('That user is already registered with sunsmart.');            
+            responseJson.message = "User: " + req.body.userEmail + " is already registered with sunsmart!";
+            res.status(400).send(JSON.stringify(req.body));
         }
         else {
             // Get a new apikey
-	    deviceApikey = getNewApikey();
-	    // Create a new device with specified id, user email, and randomly generated apikey.
+	        deviceApikey = getNewApikey();
+	        // Create a new device with specified id, user email, and randomly generated apikey.
             var newDevice = new Device({
-                deviceId: req.body.deviceId,
+                apikey: deviceApikey,
+                devices: [],
                 userEmail: req.body.userEmail,
-                apikey: deviceApikey
+                password: req.body.password,
+                active: false
             });
+            newDevice.devices.push(req.body.deviceId);
+            console.log(newDevice);
 
             // Save device. If successful, return success. If not, return error message.
             newDevice.save(function(err, newDevice) {
@@ -239,6 +285,10 @@ router.post('/register', function(req, res, next) {
                     res.status(400).send(JSON.stringify(responseJson));
                 }
                 else {
+                    console.log('sending email!');
+                    //send verification email from sunsmart to activate account.
+                    sendMail(req.body.userEmail);
+
                     responseJson.registered = true;
                     responseJson.apikey = deviceApikey;
                     responseJson.message = "Device ID " + req.body.deviceId + " was registered.";
@@ -248,6 +298,69 @@ router.post('/register', function(req, res, next) {
         }
     });
 });
+
+// Confirm a user and activate their account (can't use put from straight HTML)
+router.post('/confirm/:email', function(req, res, next) {
+    console.log('Attempting to activate account: ' + req.params.email);
+    Device.findOne({ userEmail: req.params.email }, function(err, acc) {
+        if(!acc){
+            console.log('That user does not exist! Cannot validate.');
+            res.status(400).send(JSON.stringify({message: "Email is already validated or doesn't exist!"}));
+        } else{
+            acc.active = true; 
+            acc.save(function(err, updatedAcc){
+                if(err){
+                    res.status(400).send(JSON.stringify({message: "Found your account, but could not update it."}))
+                } else{
+                    res.status(201).send(JSON.stringify({message: "Your account has been successfully activated."}));                    
+                }
+            })
+        }
+    });
+    // need to redirect to not give a 404, but maybe should have a confirmation page or something
+    //res.redirect('/login.html');    
+});
+
+// Create a session for the user.
+router.post('/dashboard', function(req, res, next){
+    console.log(req.body);
+    Device.findOne({$and: [{userEmail: req.body.userEmail}, {password: req.body.password}]}, function(err, acc){
+        if(!acc){
+            res.status(400).send(JSON.stringify({message: "Invalid username or password!"}));
+        } else if(!acc.active){
+            res.status(400).send(JSON.stringify({message: "Account exists but is not activated!"}));
+        } else{
+            res.status(200).send(JSON.stringify({message: "Credentials are correct and validated!"}))
+        }
+    })
+});
+
+
+/*************************************************************************
+ *                              DEBUGGING ROUTES                         *                             
+ *************************************************************************/
+// DELETE request for removing a user from the database
+router.delete('/remove/:email', function(req, res, next){
+    Device.remove({userEmail: req.params.email}, function(err){
+        if(err){
+            res.status(400).send(JSON.stringify({message: "Could not complete your request."}));
+        } else{
+            res.status(200).send(JSON.stringify({message: "User deleted."}));
+        }
+    })
+});
+
+// GET request for retrieving all users form the database
+router.get('/search', function(req, res, next){
+    Device.find({}, function(err, acc){
+        res.status(200).send(JSON.stringify(acc));
+    }); 
+})
+
+/*************************************************************************
+ *                         END  DEBUGGING ROUTES                         *                             
+ *************************************************************************/
+
 
 module.exports = router;
 

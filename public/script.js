@@ -25,7 +25,7 @@ function validateRegistration(){
 	var emailStatus = emailPattern.test($email) && ($email.lastIndexOf('@') == $email.indexOf('@'));
 
 	//password validation
-	var caseCheck = ($password == $password.toLowerCase());
+	var caseCheck = ($password != $password.toLowerCase());
 	var lenCheck = $password.length > 6 && $password.length < 14;
 	var numCheck = /\d/.test($password);
 	var passwordStatus = caseCheck && lenCheck && numCheck;
