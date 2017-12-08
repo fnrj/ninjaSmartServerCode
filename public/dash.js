@@ -5,22 +5,25 @@
     - Add kick for login page
 */
 
-function checkLoggedIn(){
-    /* Make sure that the user is logged in. Redirect to the log in page if they are not.*/
-}
+
 
 function populateDashboard(){
     // Query the user's devices. Session is stored on server side.
-    $.get("http://localhost:3000/devices/profile", function(data, status){
-    $("#userData").append("<ul>");
-        for(var i=0; i < data.devices.length; i++){
-            $("#userData").append("<li>" + data.devices[i] + "</li>");            
-        }
-    }, "json");
-    $("#userData").append("</ul>");
+
+    $.get("http://localhost:3000/devices/profile", function(data, status){    
+        console.log(data);
+        $("#userData").append("<ul>");
+        $("#userData").append("<li>" + data.devices[0] + "</li>");            
+        $("#userData").append("<li>" + data.userEmail + "</li>");                    
+        $("#userData").append("<li>" + data.password + "</li>");            
+        $("#userData").append("</ul>");  
+    }, "json")
+    .fail(function(jqxhr) {
+        window.location.href = "http://localhost:3000/login.html#";
+    })   
+    
 }
 
 $(document).ready(function(){
-    //checkLoggedIn();
     populateDashboard();
 });

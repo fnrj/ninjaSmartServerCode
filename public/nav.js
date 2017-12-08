@@ -40,6 +40,7 @@ function populateNavigationMenu(){
     //use ajax to try and retrieve user login.    
     $.get("http://localhost:3000/devices/user", function(data, status){
         if(data.user){
+            console.log(data.user);
             //if the user is logged in, replace the link to login page with logout button            
             $("#logout").show();
             $("#login").hide();
@@ -49,12 +50,15 @@ function populateNavigationMenu(){
             $("#login").show()            
         }
     }, "json");
-   
+    //button handler for destroying navbar
+    $("#logout").click(function(){
+        $.get("http://localhost:3000/devices/logout", function(data, status){}, "json");
+    })   
     //add handler for destroying session to the logout button
 }
 
-$(document).ready(function(){
-	//hiding and showing divs for different panels
+function populateLoginForm(){
+    	//hiding and showing divs for different panels
     $("#buttonLink").click(function(){
     	$(".loginPanel").slideToggle();
     });
@@ -62,14 +66,15 @@ $(document).ready(function(){
     	$(".loginPanel").slideToggle();
     });
     //form validation methods (email and password) for new users
-    $("#signup").submit(validateRegistration);
-    
-    //button handler for destroying navbar
-    $("#logout").click(function(){
-        $.get("http://localhost:3000/devices/logout", function(data, status){}, "json");
-    })
-    
+    $("#signup").submit(validateRegistration);    
+}
+
+
+
+
+$(document).ready(function(){
     //only show login or logout (at one time)
-    populateNavigationMenu();    
+    
+    populateNavigationMenu();        
 });
 

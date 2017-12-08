@@ -364,27 +364,40 @@ router.get('/search', function(req, res, next){
     }); 
 })
 
+/*Request for extracting the user from the database*/
 router.get('/user', function(req, res, next){
     if(req.session.user){
-        res.status(200).send(JSON.stringify({user: req.session.user}));
+        return res.status(200).send(JSON.stringify({user: req.session.user}));
     }else{
-        res.status(200).send(JSON.stringify({message: "No user!"}));
+        return res.status(200).send(JSON.stringify({message: "No user!"}));
     }
 })
 
+/*Destroys an existing session*/
 router.get('/logout', function(req, res, next){
     req.session.destroy();
 })
 
+/*Force redirect user out of the dashboard if they are not logged in.*/
 router.get('/profile', function(req, res, next){
     Device.findOne({userEmail:req.session.user}, function(err, acc){
-        //add check for null later
-        if(err){
-            res.status(400).send(JSON.stringify({message: "Query failed! Check log in."}));
+        //if query fails return 400 - this will kick out to login.html
+        if(err || !acc){
+            return res.status(400).send(JSON.stringify({message: "Query failed! Check log in."}));
+        } else{
+            console.log(acc.password);
+            console.log(acc.password.length);
+            return res.status(200).send(JSON.stringify(
+                {devices: acc.devices, 
+                 userEmail: acc.userEmail, 
+                 password: Array(acc.password.length + 1).join("*"),  
+                 message: "Successful login"}
+            ));            
         }
-        res.status(200).send(JSON.stringify({devices: acc.devices, message: "Success!"}));
     });
 })
+
+
 /*************************************************************************
  *                         END  DEBUGGING ROUTES                         *                             
  *************************************************************************/
