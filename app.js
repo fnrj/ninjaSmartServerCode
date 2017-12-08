@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 nodemailer = require('nodemailer'); //use for email verification
 
 var index = require('./routes/index');
@@ -42,7 +43,8 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));                     
+app.use(session({secret: 'Replace with secret key later!!!!!', resave:false, saveUninitialized:true}));
 
 app.use('/', index);
 app.use('/users', users);
@@ -70,5 +72,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

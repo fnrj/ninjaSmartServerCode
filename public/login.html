@@ -19,19 +19,20 @@
 				<a href="about.html" class = "navelmt">About</a>
 				<a href="products.html" class = "navelmt">Products</a>    	
 				<a href="contact.html" class = "navelmt">Contact</a>
-				<a href="login.html" class = "navelmt">Login</a>   	
+				<a href="login.html" class = "navelmt" id = "login">Login</a>   	
+				<a href="login.html" class = "navelmt" id = "logout">Logout</a>   	
 	   		</div>
 	    </header>
 	    <!-- Container holding login/registration panels -->
 	    <div class = "container">
 
 	    	<!-- login panel, shown by default -->
-	    	<div class = "loginPanel" id="login" onmouseover = "blurBackground()" onmouseleave ="sharpenBackground()">
+	    	<div class = "loginPanel" id="login" onmouseover = "blurBackground()">
 	    		<center>
 	    			<div class="greeting">
 	    				Please Sign In
 	    			</div>
-			    	<form method="POST" action="/devices/dashboard">
+			    	<form method="POST" action="/devices/authenticate">
 			    		<input type="text" name="userEmail" placeholder="Email">
 			    		<input type="password" name="password" placeholder="Password">
 			    		<input type="submit" name="Submit" value="Sign in">
@@ -59,8 +60,4 @@
     </div>
 </body>
 </html>
-
-
-
-
 

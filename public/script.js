@@ -32,8 +32,25 @@ function validateRegistration(){
 
 	//only submit the form if everything is valid
 	if(!(emailStatus && passwordStatus)){
-		alert('Invalid username or password. Alex will add handling here later.')
+		alert('Invalid username or password. Alex will add handling here later.');
 	}
+}
+
+function populateNavigationMenu(){
+    //use ajax to try and retrieve user login.    
+    $.get("http://localhost:3000/devices/user", function(data, status){
+        if(data.user){
+            //if the user is logged in, replace the link to login page with logout button            
+            $("#logout").show();
+            $("#login").hide();
+        } else{
+            //if the user is not logged in, add a link to login page
+            $("#logout").hide()
+            $("#login").show()            
+        }
+    }, "json");
+   
+    //add handler for destroying session to the logout button
 }
 
 $(document).ready(function(){
@@ -44,8 +61,15 @@ $(document).ready(function(){
     $("#registerLink").click(function(){
     	$(".loginPanel").slideToggle();
     });
-
     //form validation methods (email and password) for new users
     $("#signup").submit(validateRegistration);
+    
+    //button handler for destroying navbar
+    $("#logout").click(function(){
+        $.get("http://localhost:3000/devices/logout", function(data, status){}, "json");
+    })
+    
+    //only show login or logout (at one time)
+    populateNavigationMenu();    
 });
 

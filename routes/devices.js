@@ -20,11 +20,11 @@ function getNewApikey() {
 
 // Function for sending email (account verification)
 function sendMail(userEmail) {
-    emailBody = `<b>Thanks for signing up for Sunsmart!</b> 
+    var emailBody = `<b>Thanks for signing up for Sunsmart!</b> 
     To confirm your account, click the button below.
     <form action="http://localhost:3000/devices/confirm/`+userEmail+`" method="POST">
         <button type = "submit" name = "confirmation button">Confirm my account!</button>
-    </form>`
+    </form>`;
 
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -321,19 +321,26 @@ router.post('/confirm/:email', function(req, res, next) {
     //res.redirect('/login.html');    
 });
 
-// Create a session for the user.
-router.post('/dashboard', function(req, res, next){
-    console.log(req.body);
+
+
+/* Intermediate route: form posts to auth. Redirect to dashboard if the user is logged in. */
+router.post('/authenticate', function(req, res, next){
     Device.findOne({$and: [{userEmail: req.body.userEmail}, {password: req.body.password}]}, function(err, acc){
+        //first 2 cases need some kind of error handling, i.e. redirecting to login page
         if(!acc){
-            res.status(400).send(JSON.stringify({message: "Invalid username or password!"}));
+            return res.status(400).send(JSON.stringify({message: "Invalid username or password!"}));
         } else if(!acc.active){
-            res.status(400).send(JSON.stringify({message: "Account exists but is not activated!"}));
+            return res.status(400).send(JSON.stringify({message: "Account exists but is not activated!"}));
         } else{
-            res.status(200).send(JSON.stringify({message: "Credentials are correct and validated!"}))
+            req.session.user = req.body.userEmail;
+            res.redirect('../dashboard.html');
         }
-    })
-});
+    });
+})
+
+
+
+
 
 
 /*************************************************************************
@@ -357,6 +364,27 @@ router.get('/search', function(req, res, next){
     }); 
 })
 
+router.get('/user', function(req, res, next){
+    if(req.session.user){
+        res.status(200).send(JSON.stringify({user: req.session.user}));
+    }else{
+        res.status(200).send(JSON.stringify({message: "No user!"}));
+    }
+})
+
+router.get('/logout', function(req, res, next){
+    req.session.destroy();
+})
+
+router.get('/profile', function(req, res, next){
+    Device.findOne({userEmail:req.session.user}, function(err, acc){
+        //add check for null later
+        if(err){
+            res.status(400).send(JSON.stringify({message: "Query failed! Check log in."}));
+        }
+        res.status(200).send(JSON.stringify({devices: acc.devices, message: "Success!"}));
+    });
+})
 /*************************************************************************
  *                         END  DEBUGGING ROUTES                         *                             
  *************************************************************************/
