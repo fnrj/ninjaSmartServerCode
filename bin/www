@@ -8,10 +8,20 @@ var app = require('../app');
 var debug = require('debug')('ninjasmartservercode:server');
 var http = require('http');
 
+/* https basic configuration settings */
+var https = require('https');
+var fs = require('fs');
+
+var secretKey = fs.readFileSync('certificates/localhost.key');
+var certificate = fs.readFileSync('certificates/localhost.crt');
+var httpsOptions = {key: secretKey, cert: certificate};
+
+
 /**
  * Get port from environment and store in Express.
  */
 
+//var port = normalizePort(process.env.PORT || '3443');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -22,10 +32,16 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * Create the HTTPS server on port 443.
+ */
+https.createServer(httpsOptions, app).listen('3443');
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);
+
 server.on('error', onError);
 server.on('listening', onListening);
 

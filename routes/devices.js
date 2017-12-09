@@ -301,7 +301,6 @@ router.post('/register', function(req, res, next) {
 
 // Confirm a user and activate their account (can't use put from straight HTML)
 router.post('/confirm/:email', function(req, res, next) {
-    console.log('Attempting to activate account: ' + req.params.email);
     Device.findOne({ userEmail: req.params.email }, function(err, acc) {
         if(!acc){
             console.log('That user does not exist! Cannot validate.');
@@ -336,6 +335,29 @@ router.post('/authenticate', function(req, res, next){
             res.redirect('../dashboard.html');
         }
     });
+})
+
+
+router.put('/add_device/:newDeviceID', function(req, res, next){
+    //make sure user is signed in
+    req.session.user = "abrooks9944@email.arizona.edu";
+    if(!req.session.user){
+        return res.status(400).send(JSON.stringify({message: "User is not logged in!"}));
+    }
+    Device.findOne({devices: req.params.newDeviceID}, function(err, owner){
+        //device is not assigned to a used
+        if(!owner){
+            //check if user is logged in
+            Device.findOne({userEmail : req.session.user}, function(err, usr){
+                //err will not occur; user needs to authenticate with db to get here
+                usr.devices.push(req.params.newDeviceID);
+                return res.status(200).send(JSON.stringify({devices: usr.devices}));
+            })
+        } else{
+            return res.status(400).send(JSON.stringify({message: "Device is already registered!"}));
+        }
+    });
+
 })
 
 
