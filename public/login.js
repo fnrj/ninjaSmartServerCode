@@ -24,7 +24,7 @@ function verifyLogin(e){
     var $password = $('#loginPassword').val();
     var stop = true;
     
-    $.ajax({url :'http://localhost:3000/users/' + $user + '/' + $password, 
+    $.ajax({url :'/users/' + $user + '/' + $password, 
             type : 'get',
             async: false,
             dataType: 'json',
@@ -91,7 +91,7 @@ function validateRegistration(e){
     //device validation (if one is entered).
     if($device.length > 0){
         //UPDATE THIS ROUTE TO REFLECT THE WEB SERVER!!!!        
-        $.ajax({url :'http://localhost:3000/devices/' + $device, 
+        $.ajax({url :'/devices/' + $device, 
                 type : 'get',
                 async: false,
                 dataType: 'json',
@@ -110,7 +110,7 @@ function validateRegistration(e){
     
     //check to make sure user is not already registered.
     if(emailStatus){
-        $.ajax({url :'http://localhost:3000/users/lookup/' + $email, 
+        $.ajax({url :'/users/lookup/' + $email, 
                 type : 'get',
                 async: false,
                 dataType: 'json',
@@ -133,7 +133,7 @@ function validateRegistration(e){
         console.log('.');
     } else{
         
-        $.ajax({url :'http://localhost:3000/users/register',
+        $.ajax({url :'/users/register',
                 type : 'post',
                 async: false,
                 dataType: 'json',

@@ -15,13 +15,15 @@ function getNewApikey() {
 }
 
 
+//<form action="http://localhost:3000/users/confirm/`+userEmail+`" method="POST">
 // Function for sending email (account verification)
 function sendMail(userEmail) {
-    var endpoint = 'http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/users/confirm/'; 
+    var endpoint1 = "http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/users/confirm/"; 
+    var endpoint2 = "http://localhost:3000/users/confirm/"; 
     
     emailBody = `<b>Thanks for signing up for Sunsmart!</b> 
     To confirm your account, click the button below.
-    <form action="http://localhost:3000/users/confirm/`+userEmail+`" method="POST">
+    <form action= "http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/users/confirm/`+userEmail+`" method="POST">
         <button type = "submit" name = "confirmation button">Confirm my account!</button>
     </form>`
     
@@ -336,7 +338,8 @@ router.post('/addDevice', function(req, res, next){
             deviceApikey = getNewApikey();
             var newDevice = new Device({
                 apikey: deviceApikey,
-                deviceId: req.body.deviceId,
+                //deviceId: req.body.deviceId,
+                deviceId: req.body.newDevice,
                 userEmail: req.session.user
             });          
             newDevice.save(function(err, newDevice){
@@ -347,7 +350,7 @@ router.post('/addDevice', function(req, res, next){
                 }
             })
         }
-    })
+    });
 })
 
 /* Delete a device for the user */

@@ -10,7 +10,7 @@ function blurBackground(){
 
 function populateNavigationMenu(){
     //use ajax to try and retrieve user login.    
-    $.get("http://localhost:3000/users/current", function(data, status){
+    $.get("/users/current", function(data, status){
         if(data.user){
             console.log(data.user);
             //if the user is logged in, replace the link to login page with logout button            
@@ -24,7 +24,7 @@ function populateNavigationMenu(){
     }, "json");
     //button handler for destroying navbar
     $("#logout").click(function(){
-        $.get("http://localhost:3000/users/logout", function(data, status){}, "json");
+        $.get("/users/logout", function(data, status){}, "json");
     })   
     //add handler for destroying session to the logout button
 }

@@ -2,7 +2,7 @@ function updateLogin(e){
     /*
      * Updates a users password via Ajax.
      */
-    $.ajax({url :'http://localhost:3000/users/updatePassword',
+    $.ajax({url :'/users/updatePassword',
             type : 'put',
             dataType: 'json',
             data: $('#changePass').serialize(),
@@ -20,7 +20,7 @@ function populateDevices(){
     /*
      * Retrieves the devices associated with a user from the server and displays them on the page.
      */
-    $.ajax({url: 'http://localhost:3000/users/devices',
+    $.ajax({url: '/users/devices',
             type: 'get',
             success: function(data){
                 //add the objects in the devices array to the list 
@@ -36,7 +36,7 @@ function populateDevices(){
 
 function addDevice(e){
     
-    $.ajax({url :'http://localhost:3000/users/addDevice',
+    $.ajax({url :'/users/addDevice',
             type : 'post',
             dataType: 'json',
             data: $('#newDevice').serialize(),
