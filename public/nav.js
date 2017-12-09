@@ -24,7 +24,7 @@ function populateNavigationMenu(){
     }, "json");
     //button handler for destroying navbar
     $("#logout").click(function(){
-        $.get("http://localhost:3000/devices/logout", function(data, status){}, "json");
+        $.get("http://localhost:3000/users/logout", function(data, status){}, "json");
     })   
     //add handler for destroying session to the logout button
 }
