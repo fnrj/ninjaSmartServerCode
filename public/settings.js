@@ -35,13 +35,22 @@ function populateDevices(){
 }
 
 function addDevice(e){
+     $.ajax({url :'/users/removeDevice',
+            type : 'delete',
+            dataType: 'json',
+            success: function(data){
+            },
+            error: function(xhr){
+                console.log(xhr.responseText);
+            }
+    });      
     
     $.ajax({url :'/users/addDevice',
             type : 'post',
             dataType: 'json',
             data: $('#newDevice').serialize(),
             success: function(data){
-                $('#userDevices').append('<li>' + data.deviceId + '</li>');                                    
+                $('#userDevices').html('<li>' + data.deviceId + '</li>');                                    
             },
             error: function(xhr){
                 console.log(xhr.responseText);

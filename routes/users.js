@@ -324,6 +324,22 @@ router.put('/updatePassword', function(req, res, next){
 
 })
 
+router.delete('/removeDevice', function(req, res, next){
+  	if(!req.session.user){
+        	return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
+    	}	
+ 	Device.remove({userEmail: req.session.user}, function(err){
+        if(err){
+            res.status(400).send(JSON.stringify({message: "Could not complete your request."}));
+        } else{
+            res.status(200).send(JSON.stringify({message: "All photon data deleted."}));
+        }
+    })
+});
+
+
+
+
 /* Add a device for an existing user */
 router.post('/addDevice', function(req, res, next){
     if(!req.session.user){
