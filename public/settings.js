@@ -24,8 +24,13 @@ function populateDevices(){
             type: 'get',
             success: function(data){
                 //add the objects in the devices array to the list 
-                for(var i = 0; i < data.devices.length; i++){
-                    $('#userDevices').append('<li>' + data.devices[i].deviceId + '</li>');                    
+                $('#userDevices').html('<h4>' + 'Device Id: '+data.devices[0].deviceId + '</h4>');
+                $('#userDevices').append('<h4>' + 'Longitude: '+data.devices[0].longitude + '</h4>');
+                $('#userDevices').append('<h4>' + 'Latitude: '+data.devices[0].latitude + '</h4>');
+                $('#userDevices').append('<h4>' + 'Recent UV index: ' + '</h4>');
+		for(var i = 0; i < data.devices.length; i++){
+			var nowTime = new Date(data.devices[i].loggedTime); 
+                    $('#userDevices').append('<p>' + data.devices[i].uv + '@' + nowTime +'</p>');                    
                 }
             },
             error: function(xhr){

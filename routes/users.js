@@ -288,7 +288,7 @@ router.get('/devices', function(req, res, next){
 
     //Device.find({userEmail : req.session.user}, {deviceId:1, _id:0}, function(err, devices){
     //Now each user only has one device, list last 5 recent data 
-    Device.find({userEmail : req.session.user}, {deviceId:1, _id:0}, function(err, devices){
+    Device.find({userEmail : req.session.user}).sort({ "lastContact": "desc" }).limit(5).exec( function(err, devices){
         if(err){
             return res.status(400).send(JSON.stringify({'message': 'Query failed. Could not look up user.'}))
         } else{
