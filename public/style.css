@@ -7,7 +7,7 @@
 
 /*GENERAL*/
 body {
-	color:white;  
+	color:black;  
 	height: 100%;
 }
 .errormsgs{
@@ -27,6 +27,7 @@ body {
 	min-height: 100%;
 	width: 100%;
 	position: fixed;
+	opacity: 0.2;
 }
 
 h3{
@@ -363,4 +364,41 @@ form input{
     right: 5px;
     text-decoration: none;
     color: #FFF;
+}
+
+a {
+display: block;
+font-size: 13pt;
+}
+
+#cancerTips {
+width: 40%;
+float: left;
+padding-left: 150px;
+padding-right: 10px;
+color: black;
+	font-family: Arial, sans-serif;
+}
+
+#healthTips {
+width: 40%;
+  display: inline-block;
+color:black;
+	font-family: Arial, sans-serif;
+}
+
+#twitter-timeline {
+width: 30%;
+height: 30%;
+}
+
+#twitter-timeline:eq(2) {
+width: 30%;
+display: inline-block;
+height: 30%;
+}
+
+#profile {
+	height: 50px;
+	width: 50px;
 }
