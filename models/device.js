@@ -2,10 +2,9 @@ var db = require("../db");
 
 var deviceSchema = new db.Schema({
     apikey:       String,
-    devices:     [String], //{[String], validate: [deviceCheck, 'Invalid device configuration!']}, 
+    deviceId:     String, //{[String], validate: [deviceCheck, 'Invalid device configuration!']}, 
     userEmail:    String,
-    active:       Boolean, 
-    password:     String, //make me more secure when hashing is added!
+    loggedTime:   { type: Date, default: Date.now },
     lastContact:  { type: Date, default: Date.now },
     longitude:	Number,
     latitude:	Number,

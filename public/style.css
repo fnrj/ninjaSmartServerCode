@@ -10,6 +10,15 @@ body {
 	color:white;  
 	height: 100%;
 }
+.errormsgs{
+    background-color: crimson;
+    opacity: 0.8;
+}
+
+.errormsgs li{
+    list-style-type: none;
+}
+
 
 #background{
 	height:auto;
