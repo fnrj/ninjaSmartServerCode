@@ -24,7 +24,7 @@ router.get('/status/:devid', function(req, res, next) {
     var deviceId = req.params.devid;
     var responseJson = { 
         message : "",
-	devices: []
+	    devices: []
     }; 
    if( !req.query.hasOwnProperty("userEmail")) {
         responseJson.message = "Missing account name(userEmail).";
@@ -56,17 +56,17 @@ router.get('/status/:devid', function(req, res, next) {
             // Create JSON response consisting of an array of devices
             responseJson.message = "Return device info.";
             for (var doc of allDevices) {
-            // For each found device add a new element to the array
-            // with the device id and last contact time
-            responseJson.devices.push({ "deviceId":   	doc.deviceId, 
-                            "lastContact": 	doc.lastContact,
-                            "loggedTime": 	doc.loggedTime,
-                            "userEmail": 	doc.userEmail,
-                            "longitude": 	doc.longitude,
-                            "latitude": 	doc.latitude,
-                            "uv": 		doc.uv,
-                            "zipcode": 		doc.zipcode,
-                            "address": 		doc.address});
+                // For each found device add a new element to the array
+                // with the device id and last contact time
+                responseJson.devices.push({ "deviceId":   	doc.deviceId, 
+                                "lastContact": 	doc.lastContact,
+                                "loggedTime": 	doc.loggedTime,
+                                "userEmail": 	doc.userEmail,
+                                "longitude": 	doc.longitude,
+                                "latitude": 	doc.latitude,
+                                "uv": 		doc.uv,
+                                "zipcode": 		doc.zipcode,
+                                "address": 		doc.address});
             }
             return res.status(200).send(JSON.stringify(responseJson));
         }
@@ -77,7 +77,7 @@ router.get('/status/:devid', function(req, res, next) {
 router.put('/status/:devid', function(req, res, next) {
     var deviceIdFromParam = req.params.devid;
     var responseJson = { 
-	status : "",
+        status : "",
         message : ""
     };
     // Ensure the POST data include properties id and email
@@ -112,41 +112,41 @@ router.put('/status/:devid', function(req, res, next) {
         res.status(201).send(JSON.stringify(responseJson));
     }
     else {
-	Device.findOne({ "deviceId": deviceIdFromParam }, function(err, device) {
-	    if (device !== null) {
-		if (device.apikey != req.body.apikey) {
-		    responseJson.status = "ERROR";
-		    responseJson.message = "Invalid apikey for device ID " + deviceIdFromParam + ".";
-		    res.status(201).send(JSON.stringify(responseJson));
-		}
-		else {
-		    // update device data 
-		    device.lastContact = req.body.lastContact;
-		    device.loggedTime = req.body.loggedTime;
-		    device.longitude = req.body.longitude;
-		    device.latitude = req.body.latitude;
-		    device.uv = req.body.uv;
-		    // Save device. If successful, return success. If not, return error message.                                                        
-		    device.save(function(err, updateDevice) {
-			if (err) {
-			    responseJson.status = "ERROR";
-			    responseJson.message = "Error saving data in db.";
-			    res.status(201).send(JSON.stringify(responseJson));
-			}
-			else {
-			    responseJson.status = "OK";
-			    responseJson.message = "Data saved in db with object ID " + updateDevice._id + ".";
-			    res.status(201).send(JSON.stringify(responseJson));
-			}
-		    });
-		}
-	    }
-	    else {
-		responseJson.status = "ERROR";
-		responseJson.message = "Device ID " + deviceIdFromParam + " not registered.";
-		res.status(201).send(JSON.stringify(responseJson));	    
-	    }
-	})
+        Device.findOne({ "deviceId": deviceIdFromParam }, function(err, device) {
+            if (device !== null) {
+                if (device.apikey != req.body.apikey) {
+                    responseJson.status = "ERROR";
+                    responseJson.message = "Invalid apikey for device ID " + deviceIdFromParam + ".";
+                    res.status(201).send(JSON.stringify(responseJson));
+                }
+                else {
+                    // update device data 
+                    device.lastContact = req.body.lastContact;
+                    device.loggedTime = req.body.loggedTime;
+                    device.longitude = req.body.longitude;
+                    device.latitude = req.body.latitude;
+                    device.uv = req.body.uv;
+                    // Save device. If successful, return success. If not, return error message.                                                        
+                    device.save(function(err, updateDevice) {
+                        if (err) {
+                            responseJson.status = "ERROR";
+                            responseJson.message = "Error saving data in db.";
+                            res.status(201).send(JSON.stringify(responseJson));
+                        }
+                        else {
+                            responseJson.status = "OK";
+                            responseJson.message = "Data saved in db with object ID " + updateDevice._id + ".";
+                            res.status(201).send(JSON.stringify(responseJson));
+                        }
+                    });
+                }
+            }
+            else {
+                responseJson.status = "ERROR";
+                responseJson.message = "Device ID " + deviceIdFromParam + " not registered.";
+                res.status(201).send(JSON.stringify(responseJson));	    
+            }
+        })
      }
 });
 
@@ -155,7 +155,7 @@ router.put('/status/:devid', function(req, res, next) {
 router.delete('/status/:devid', function(req, res, next) {
     var deviceIdFromParam = req.params.devid;
     var responseJson = { 
-	status : "",
+	    status : "",
         message : ""
     };
     // Ensure the POST data include properties id and email
@@ -170,41 +170,42 @@ router.delete('/status/:devid', function(req, res, next) {
         res.status(201).send(JSON.stringify(responseJson));
     }
     else {
-	Device.findOne({ "deviceId": deviceIdFromParam }, function(err, device) {
-	    if (device !== null) {
-		if (device.apikey != req.body.apikey) {
-		    responseJson.status = "ERROR";
-		    responseJson.message = "Invalid apikey for device ID " + deviceIdFromParam + ".";
-		    res.status(201).send(JSON.stringify(responseJson));
-		}
-		else if (device.userEmail != req.body.userEmail) {
+        Device.findOne({ "deviceId": deviceIdFromParam }, function(err, device) {
+            if (device !== null) {
+                if (device.apikey != req.body.apikey) {
+                    responseJson.status = "ERROR";
+                    responseJson.message = "Invalid apikey for device ID " + deviceIdFromParam + ".";
+                    res.status(201).send(JSON.stringify(responseJson));
+                }
+                else if (device.userEmail != req.body.userEmail) {
                     responseJson.status = "ERROR";
                     responseJson.message = "Wrong user email for device ID " + deviceIdFromParam + ".";
                     res.status(201).send(JSON.stringify(responseJson));
                 }
-		else {
-		// remove this device
-		device.remove(function(err, removeDevice) { 
-			if (err) {
-                    	responseJson.status = "ERROR";
-                    	responseJson.message = "Error deleting device in db.";
-                    	res.status(201).send(JSON.stringify(responseJson));
-                	}
-                	else {
-                    	responseJson.status = "OK";
-                    	responseJson.message = "Device deleted in db with device ID "+ device.deviceId + ".";
-                    	res.status(201).send(JSON.stringify(responseJson));
-			}
-		});
-	    	}
-	    }
-	    else {
-		responseJson.status = "ERROR";
-		responseJson.message = "Device ID " + deviceIdFromParam + " not registered.";
-		res.status(201).send(JSON.stringify(responseJson));	    
-	    }
-	});
+                else {
+                    // remove this device
+                    device.remove(function(err, removeDevice) { 
+                        if (err) {
+                            responseJson.status = "ERROR";
+                            responseJson.message = "Error deleting device in db.";
+                            res.status(201).send(JSON.stringify(responseJson));
+                        }
+                        else {
+                            responseJson.status = "OK";
+                            responseJson.message = "Device deleted in db with device ID "+ device.deviceId + ".";
+                            res.status(201).send(JSON.stringify(responseJson));
+                         }
+                      });
+                  }
+            }
+            else {
+                responseJson.status = "ERROR";
+                responseJson.message = "Device ID " + deviceIdFromParam + " not registered.";
+                res.status(201).send(JSON.stringify(responseJson));	    
+            }
+        });
      }
 });
+
 
 module.exports = router;

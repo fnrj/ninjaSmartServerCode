@@ -15,7 +15,6 @@ function populateDashboard(){
         $("#userData").append("<ul>");
         $("#userData").append("<li>" + data.devices[0] + "</li>");            
         $("#userData").append("<li>" + data.userEmail + "</li>");                    
-        $("#userData").append("<li>" + data.password + "</li>");            
         $("#userData").append("</ul>");  
     }, "json")
     .fail(function(jqxhr) {

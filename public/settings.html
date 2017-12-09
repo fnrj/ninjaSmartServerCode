@@ -32,7 +32,15 @@
 			     <input type="password" name="oldPassword2" id="oldPassword2">			    		
 			     <input type="password" name="newPassword" id="newPassword">
 			     <input type="submit" name="Submit" value="Update Password">			    		
-			 </form>	 
+			 </form>	
+            
+            <h1>Your devices</h1>
+            <div id = 'userDevices'></div>
+            <form method="POST" action="users/addDevice" id="addDevice">
+			     <input type="text" name="newDevice" id="newDevice">	
+			     <input type="submit" name="Submit" value="Add a new device">			    		                
+            </form>
+            
 	    </div>	    	
     </div>
 </body>

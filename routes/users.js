@@ -238,6 +238,13 @@ router.get('/search', function(req, res, next){
     }); 
 })
 
+
+
+/*************************************************************************
+ *                         END  DEBUGGING ROUTES                         *                             
+ *************************************************************************/
+
+
 /*Request for extracting the user from the database*/
 router.get('/current', function(req, res, next){
     if(req.session.user){
@@ -271,6 +278,24 @@ router.get('/profile', function(req, res, next){
     });
 })
 
+/* Get all of the user's devices*/
+router.get('/devices', function(req, res, next){
+    if(!req.session.user){
+        return res.status(400).send(JSON.stringify({'message':'User is not logged in!'}));
+    }
+
+    Device.find({userEmail : req.session.user}, {deviceId:1, _id:0}, function(err, devices){
+        if(err){
+            return res.status(400).send(JSON.stringify({'message': 'Query failed. Could not look up user.'}))
+        } else{
+            console.log(devices);
+            return res.status(200).send({devices: devices});
+        }
+    })
+    
+})
+
+
 
 /* Update the user's password */
 router.put('/updatePassword', function(req, res, next){
@@ -297,13 +322,37 @@ router.put('/updatePassword', function(req, res, next){
 
 })
 
-/* Add a device for the user */
-router.put('/addDevice, function(req, res, next)')
+/* Add a device for an existing user */
+router.post('/addDevice', function(req, res, next){
+    if(!req.session.user){
+        return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
+    }
+    
+    Device.findOne({deviceId: req.body.newDevice}, function(err, device){
+        if(device !== null){
+            console.log(device);
+            return res.status(400).send(JSON.stringify({'message': 'that device is already registered.'}));
+        } else{
+            deviceApikey = getNewApikey();
+            var newDevice = new Device({
+                apikey: deviceApikey,
+                deviceId: req.body.deviceId,
+                userEmail: req.session.user
+            });          
+            newDevice.save(function(err, newDevice){
+                if(err){
+                    return res.status(400).send(JSON.stringify({'message':err}));                    
+                } else{
+                    return res.status(201).send(JSON.stringify({'message':'Device added!', 'deviceId':req.body.newDevice}));
+                }
+            })
+        }
+    })
+})
 
 /* Delete a device for the user */
 
-/*************************************************************************
- *                         END  DEBUGGING ROUTES                         *                             
- *************************************************************************/
+
+
 
 module.exports = router;
