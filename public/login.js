@@ -39,8 +39,8 @@ function verifyLogin(e){
                     stop = false;
                 }
             },
-            error: function(){
-                console.log('ajax failed (auth query)!');
+            error: function(xhr){
+                console.log(xhr.responseText);
                 stop = true;
            }
     });        

@@ -10,7 +10,7 @@
 function populateDashboard(){
     // Query the user's devices. Session is stored on server side.
 
-    $.get("http://localhost:3000/devices/profile", function(data, status){    
+    $.get("http://localhost:3000/users/profile", function(data, status){    
         console.log(data);
         $("#userData").append("<ul>");
         $("#userData").append("<li>" + data.devices[0] + "</li>");            

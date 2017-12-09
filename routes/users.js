@@ -113,40 +113,40 @@ router.post('/register', function(req, res, next) {
                     sendMail(req.body.userEmail);
                 }
             });
-    Device.findOne({deviceId: req.body.deviceId}, function(err,device){
-	if (device !== null) {
-            console.log('That device is already registered with another user.');            
-            responseJson.message = "Device Id: " + req.body.deviceId + " is already registered with another user!";
-            res.status(400).send(JSON.stringify(responseJson));
-        return;
-        }
-        else {
-	    // Get a new apikey
-	    deviceApikey = getNewApikey();
-	    // Create a new device with specified id, user email, and randomly generated apikey.
-            var newDevice = new Device({
-                apikey: deviceApikey,
-                deviceId: req.body.deviceId,
-                userEmail: req.body.userEmail,
-            });
-            console.log(newDevice);
-		// Save device. If successful, return success. If not, return error message.
-            newDevice.save(function(err, newDevice) {
-                if (err) {
-                    console.log("Error: " + err);
-                    responseJson.message = err;
+            Device.findOne({deviceId: req.body.deviceId}, function(err,device){
+                if (device !== null) {
+                    console.log('That device is already registered with another user.');            
+                    responseJson.message = "Device Id: " + req.body.deviceId + " is already registered with another user!";
                     res.status(400).send(JSON.stringify(responseJson));
+                    return;
                 }
                 else {
-                    console.log('new device saved!');
-                    responseJson.userDeviceRegistered = true;
-                    responseJson.apikey = deviceApikey;
-                    responseJson.deviceMessage = "User and its Device ID " + req.body.deviceId + " was registered.";
-                    res.status(201).send(JSON.stringify(responseJson));
-                }
+                    // Get a new apikey
+                    deviceApikey = getNewApikey();
+                    // Create a new device with specified id, user email, and randomly generated apikey.
+                    var newDevice = new Device({
+                        apikey: deviceApikey,
+                        deviceId: req.body.deviceId,
+                        userEmail: req.body.userEmail,
+                    });
+                    console.log(newDevice);
+                    // Save device. If successful, return success. If not, return error message.
+                    newDevice.save(function(err, newDevice) {
+                        if (err) {
+                            console.log("Error: " + err);
+                            responseJson.message = err;
+                            res.status(400).send(JSON.stringify(responseJson));
+                        }
+                        else {
+                            console.log('new device saved!');
+                            responseJson.userDeviceRegistered = true;
+                            responseJson.apikey = deviceApikey;
+                            responseJson.deviceMessage = "User and its Device ID " + req.body.deviceId + " was registered.";
+                            res.status(201).send(JSON.stringify(responseJson));
+                        }
+                    });
+                }                
             });
-	}
-    });
         } // from find user error
     });
 });
@@ -270,6 +270,37 @@ router.get('/profile', function(req, res, next){
         }
     });
 })
+
+
+/* Update the user's password */
+router.put('/updatePassword', function(req, res, next){
+    if( !req.body.hasOwnProperty("oldPassword1") || !req.body.hasOwnProperty("oldPassword2") || !req.body.hasOwnProperty("newPassword")) {
+        return res.status(400).send(JSON.stringify({'message':'Did not fill out password fields correctly!'})); //also checked on front end 
+    }
+    if(!req.session.user){
+        return res.status(400).send(JSON.stringify({'message':'User is not logged in!'}));
+    }
+    if(req.body.oldPassword1 != req.body.oldPassword2){
+        return res.status(400).send(JSON.stringify({'message': 'Passwords do not match!'}));
+    }
+
+    User.findOneAndUpdate({userEmail:req.session.user}, { $set: { password: req.body.newPassword } }, function(err, acc) {
+        if(err){
+            return res.status(400).send(JSON.stringify({message: 'Could not look up the session user.'}));
+        } else{
+            if(req.body.oldPassword1 != acc.password){
+                return res.status(400).send(JSON.stringify({message: 'Invalid password entered.'}));
+            }
+            return res.status(200).send(JSON.stringify({message: 'Your password was updated'}));
+        }
+    });    
+
+})
+
+/* Add a device for the user */
+router.put('/addDevice, function(req, res, next)')
+
+/* Delete a device for the user */
 
 /*************************************************************************
  *                         END  DEBUGGING ROUTES                         *                             

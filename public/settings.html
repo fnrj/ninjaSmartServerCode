@@ -8,7 +8,7 @@
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src = "nav.js"></script>
-    <script type="text/javascript" src = "dash.js"></script>
+    <script type="text/javascript" src = "settings.js"></script>
 
     <!--<script type="text/javascript" src = "script.js"></script>-->
     <img id="background" src="res/summer.jpg" border="0" alt="">
@@ -26,8 +26,13 @@
 	    </header>
 	    <!-- Container holding login/registration panels -->
 	    <div class = "container" id = "userData">
-            <a href="settings.html" class = "navelmt" id = "login">Profile Settings</a>   	            
-            Add the weather here
+            <h1>Change Password</h1>
+            <form method="POST" action="users/updatePassword" id="changePass">
+			     <input type="password" name="oldPassword1" id="oldPassword1">			    		
+			     <input type="password" name="oldPassword2" id="oldPassword2">			    		
+			     <input type="password" name="newPassword" id="newPassword">
+			     <input type="submit" name="Submit" value="Update Password">			    		
+			 </form>	 
 	    </div>	    	
     </div>
 </body>
