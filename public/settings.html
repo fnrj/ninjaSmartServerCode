@@ -28,18 +28,26 @@
 	    <div class = "container" id = "userData">
             <h1>Change Password</h1>
             <form method="POST" action="users/updatePassword" id="changePass">
-			     <input type="password" name="oldPassword1" id="oldPassword1">			    		
-			     <input type="password" name="oldPassword2" id="oldPassword2">			    		
-			     <input type="password" name="newPassword" id="newPassword">
+				<label for="oldPassword">Enter Old Password:</label>
+			     <input type="password" name="oldPassword" id="oldPassword">
+				<label for="newPassword1">Enter New Password:</label>			    		
+			     <input type="password" name="newPassword1" id="newPassword1">
+				<label for="newPassword2">Enter New Password One More Time:</label>				    		
+			     <input type="password" name="newPassword2" id="newPassword2">
 			     <input type="submit" name="Submit" value="Update Password">			    		
 			 </form>	
             
-            <h1>Your devices</h1>
+            <h1>Your Devices</h1>
             <div id = 'userDevices'></div>
             <form method="POST" action="users/addDevice" id="addDevice">
-			     <input type="text" name="newDevice" id="newDevice">	
-			     <input type="submit" name="Submit" value="Add a new device">			    		                
-            </form>
+				<label for="newDevice">Enter Old Device ID: <br> </label>
+			     <input type="text" name="oldDevice" id="oldDevice">	
+				<label for="oldPassword">Enter New Device ID:</label>
+			     <input type="text" name="newDevice1" id="newDevice1">
+				<label for="newPassword1">Enter New Device ID:</label>			    		
+			     <input type="text" name="newDevice2" id="newDevice2">
+			     <input type="submit" name="Submit" value="Update Device ID">			    		                
+            		</form>
             
 	    </div>	    	
     </div>
