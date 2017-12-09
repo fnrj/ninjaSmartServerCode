@@ -286,6 +286,8 @@ router.get('/devices', function(req, res, next){
         return res.status(400).send(JSON.stringify({'message':'User is not logged in!'}));
     }
 
+    //Device.find({userEmail : req.session.user}, {deviceId:1, _id:0}, function(err, devices){
+    //Now each user only has one device, list last 5 recent data 
     Device.find({userEmail : req.session.user}, {deviceId:1, _id:0}, function(err, devices){
         if(err){
             return res.status(400).send(JSON.stringify({'message': 'Query failed. Could not look up user.'}))
@@ -362,7 +364,7 @@ router.post('/addDevice', function(req, res, next){
                 if(err){
                     return res.status(400).send(JSON.stringify({'message':err}));                    
                 } else{
-                    return res.status(201).send(JSON.stringify({'message':'Device added!', 'deviceId':req.body.newDevice}));
+                    return res.status(201).send(JSON.stringify({'message':'Device added!', 'deviceId':req.body.newDevice, 'apikey':newDevice.apikey}));
                 }
             })
         }

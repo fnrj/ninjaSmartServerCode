@@ -50,7 +50,8 @@ function addDevice(e){
             dataType: 'json',
             data: $('#newDevice').serialize(),
             success: function(data){
-                $('#userDevices').html('<li>' + data.deviceId + '</li>');                                    
+                $('#userDevices').html('<li>' + 'Device Id: ' + data.deviceId + '</li>');                                    
+                $('#userDevices').append('<li>' + 'Device API key: ' + data.apikey + '</li>');                                    
             },
             error: function(xhr){
                 console.log(xhr.responseText);
