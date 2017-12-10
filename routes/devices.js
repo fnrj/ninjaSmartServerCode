@@ -295,4 +295,6 @@ router.delete('/status/:devid', function(req, res, next) {
 });
 
 
+          
+                   
 module.exports = router;

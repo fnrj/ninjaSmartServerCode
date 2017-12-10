@@ -23,7 +23,7 @@ function sendMail(userEmail) {
     
     emailBody = `<b>Thanks for signing up for Sunsmart!</b> 
     To confirm your account, click the button below.
-    <form action= "http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/users/confirm/`+userEmail+`" method="POST">
+    <form action= "http://localhost:3000/users/confirm/`+userEmail+`" method="POST">
         <button type = "submit" name = "confirmation button">Confirm my account!</button>
     </form>`
     
@@ -224,7 +224,7 @@ router.get('/:email/:password', function(req, res, next){
  *************************************************************************/
 // DELETE request for removing a user from the database
 router.delete('/remove/:email', function(req, res, next){
-    User.remove({userEmail: req.params.email}, function(err){
+    Device.remove({userEmail: req.params.email}, function(err){
         if(err){
             res.status(400).send(JSON.stringify({message: "Could not complete your request."}));
         } else{
@@ -235,7 +235,7 @@ router.delete('/remove/:email', function(req, res, next){
 
 // GET request for retrieving all users form the database
 router.get('/search', function(req, res, next){
-    User.find({}, function(err, acc){
+    Device.find({}, function(err, acc){
         res.status(200).send(JSON.stringify(acc));
     }); 
 })
@@ -288,7 +288,7 @@ router.get('/devices', function(req, res, next){
 
     //Device.find({userEmail : req.session.user}, {deviceId:1, _id:0}, function(err, devices){
     //Now each user only has one device, list last 5 recent data 
-    Device.find({userEmail : req.session.user}).sort({ "lastContact": "desc" }).limit(5).exec( function(err, devices){
+    Device.findOne({userEmail : req.session.user}).sort({ "lastContact": "desc" }).limit(5).exec( function(err, devices){
         if(err){
             return res.status(400).send(JSON.stringify({'message': 'Query failed. Could not look up user.'}))
         } else{
@@ -298,7 +298,6 @@ router.get('/devices', function(req, res, next){
     })
     
 })
-
 
 
 /* Update the user's password */
