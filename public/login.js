@@ -51,11 +51,7 @@ function verifyLogin(e){
     }
 }
 function submitForm(e){
-    /* Checks out user credentials.
-     * Response types:
-     *    Valid - Submit normally
-     *    Invalid - Invalid username or password
-     *    Inactive - User needs to activate their account
+    /* Submit form and store token in callback 
      */
     var $user = $('#loginEmail').val()
     var $password = $('#loginPassword').val();
@@ -68,11 +64,9 @@ function submitForm(e){
             data: JSON.stringify({ userEmail:$user, password:$password }),
             success: function(data){
             	//always stop submitting form because it was submitted here
-		        // stop = false; 
             	window.localStorage.setItem("token", data.token);
-    		    // Redirecting location
-    		    window.location = data.redirect;
-		        alert(data.token);    
+    		window.location = data.redirect;
+		//alert(data.token);    
             },
             error: function(xhr){
                 console.log(xhr.responseText);
