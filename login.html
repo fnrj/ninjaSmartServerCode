@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<title>Sunsmart - Login</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src = "nav.js"></script>
+    <script type="text/javascript" src = "login.js"></script>
+
+    <!--<script type="text/javascript" src = "script.js"></script>-->
+    <img id="background" src="res/summer.jpg" border="0" alt="">
+    <div class="pagewrap">
+	    <!-- Container holding navigation bar -->    	
+	    <header>
+	    	<div class = "navbar" id = "navhead">
+			    <a href="index.html" class = "navelmt">Home</a>
+				<a href="about.html" class = "navelmt">About</a>
+				<a href="products.html" class = "navelmt">Products</a>    	
+				<a href="contact.html" class = "navelmt">Contact</a>
+				<a href="login.html" class = "navelmt" id = "login">Login</a>   	
+				<a href="login.html" class = "navelmt" id = "logout">Logout</a>   
+            </div>
+	    </header>
+	    <!-- Container holding login/registration panels -->
+	    <div class = "container">
+
+	    	<!-- login panel, shown by default -->
+	    	<div class = "loginPanel toggle" id="login" onmouseover = "blurBackground()">
+	    		<center>
+	    			<div class="greeting">
+	    				Please Sign In
+	    			</div>
+			    	<form method="POST" action="/users/authenticate" id = "signin">
+			    		<input type="text" name="userEmail" placeholder="Email" id = "loginEmail">
+			    		<input type="password" name="password" placeholder="Password" id = "loginPassword">
+			    		<input type="submit" name="Submit" value="Sign in">
+			    	<a href="#" class = "buttonLink" id = "buttonLink">Create an Account</a>	
+                    </form>	    
+                    <div id="loginErrors"> 
+                        <ul class = errormsgs id=lErrorMessages>
+                            <li id="invalidLogin" class = 'hidden'>Invalid username or password.</li>
+                            <li id="inactive" class = 'hidden'>Your account has not been activated.</li>
+                        </ul>
+                    </div>                    
+				</center>
+	    	</div>
+	    	<!-- registration panel, hidden by default -->
+	    	<div class="hidden loginPanel toggle" id="register" onmouseover = "blurBackground()">
+			    <a href="#"  id = "registerLink">✖</a>			    		
+	    		<center>
+	    			<div class="greeting">
+	    				Create an Account
+	    			</div>	    			
+			    	<form method="POST" action="/users/register" id="signup">
+			    		<input type="text" name="userEmail" placeholder="Email" id="registerEmail">			    		
+			    		<input type="text" name="deviceId" placeholder="Device ID" id="deviceId">			    		
+			    		<input type="password" name="password" placeholder="Strong password" id="registerPassword">
+			    		<input type="submit" name="Submit" value="Create account">			    		
+			    	</form>	   	    
+                    <div id="registerError"> 
+                        <ul class = errormsgs id=rErrorMessages></ul>
+                    </div>
+	    		</center>
+	    	</div>
+	    	<div class="hidden loginPanel" id="confirmation">
+                <div class="greeting">
+                    We Just Sent You an Email. Welcome to Sunsmart! We're Looking Forward to Meeting You.
+	            </div>	    	
+            </div>            
+	    </div>	    	
+	    </div>
+    </div>
+</body>
+</html>
+
