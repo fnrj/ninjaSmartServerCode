@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Sunsmart - API</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src = "nav.js"></script>
+    <script type="text/javascript" src = "api.js"></script>
+    <img id="background" src="res/summer.jpg" border="0" alt="">    
+    <div class="pagewrap">
+	    <header>
+	    	<div class = "navbar" id = "navhead">
+			    <a href="index.html" class = "navelmt">Home</a>
+				<a href="about.html" class = "navelmt">About</a>
+				<a href="api.html" class = "navelmt">API</a>    	
+				<a href="contact.html" class = "navelmt">Contact</a>
+				<a href="login.html" class = "navelmt" id = "login">Login</a>   	
+				<a href="login.html" class = "navelmt" id = "logout">Logout</a>   
+            </div>
+	    </header>
+	    <div class="minipane">
+            <h2>The Sunsmart API</h2>
+        </div>
+        <div class="guide">
+            <h2 class="emphasis">Enhance Your Sun-based Applications with the Sunsmart API!</h2>
+            Our wide network of Photon devices collects UV index data from all over the world. Queries can retrieve information regarding current Photon readings based on zip code and latitude/longitude.<br><br>
+        
+            <h2 class="emphasis">How to Get Started</h2>
+            You'll need an APIkey so that we can validate your queries. To get one, click the button below. Don't forget to save it! You'll need it later.
+            <div id="keySlot" class="emphasis hidden"> Your API key is: </div> 
+            <a href="#" class = "buttonLink" id = "generateButton">Generate an API key</a><br>
+
+            <h2 class="emphasis">Verifying your API key</h2>
+            Want to check to make sure that your API key is correct and active in our system? No problem. Just submit your key into the text field and we'll let you know.
+            <div id="keyTest" class = "emphasis hidden"></div>                
+            <input type="text" name="potentialKey" id="potentialKey">			    		
+            <a href="#" class = "buttonLink" id = "testButton">Validate API key</a> <br>
+
+            <h2 class="emphasis">Getting Started with Queries</h2>
+            You can get data from us with AJAX GET requests, which you can find lots of information for online. We have a couple of examples of what our query strings typically look like shown below. If you want to try a query out before getting started in AJAX, paste the URL into the corresponding text field, and we'll show you the response.<br><br>
+
+            <h3 class="emphasis">Querying by Zip Code</h3>        
+            query format: http://localhost:3000/externalusers/weather?zipcode={zipcode}&key={apikey}
+            <div id="zipTest" class = "emphasis hidden"></div>                  
+            <input type="text" name="zipQuery" id="zipQuery">	
+            <a href="" onclick="return false;" class = "buttonLink" id = "zipButton">Get Zipcode Query Results</a> <br>
+                
+            <h3 class="emphasis">Querying by Latitude and Longitude</h3>        
+            query format: http://localhost:3000/externalusers/weather?lat={latitude}&lon={longitude}&key={apikey}
+            <div id="coordTest" class = "emphasis hidden"></div>  
+            <input type="text" name="coordQuery" id="coordQuery">			    		
+            <a href="" onclick="return false;" class = "buttonLink" id = "coordButton">Get Lat/Lon Query Results</a>
+        </div>
+        
+	    <footer>
+	    	&#9400; 2018 SunSmart
+	    </footer>
+    </div>
+</body>
+</html>

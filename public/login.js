@@ -38,7 +38,7 @@ function verifyLogin(e){
                 }  else{
             	    //always stop submitting form because it was submitted here
                     //stop = false;
-		    submitForm();	
+		            submitForm(e);	
                 }
             },
             error: function(xhr){
@@ -64,15 +64,15 @@ function submitForm(e){
             type : "POST",
             async: false,
             dataType: "json",
-	    contentType: "application/json; charset=utf-8",
+	        contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ userEmail:$user, password:$password }),
             success: function(data){
             	//always stop submitting form because it was submitted here
-		// stop = false; 
+		        // stop = false; 
             	window.localStorage.setItem("token", data.token);
-    		// Redirecting location
-    		window.location = data.redirect;
-		alert(data.token);    
+    		    // Redirecting location
+    		    window.location = data.redirect;
+		        alert(data.token);    
             },
             error: function(xhr){
                 console.log(xhr.responseText);

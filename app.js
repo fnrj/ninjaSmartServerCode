@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 //Below routes added by Kyle
 var devices = require('./routes/devices');
+var externalusers = require('./routes/externalusers');
 
 
 
@@ -48,9 +49,8 @@ app.use(session({secret: 'Replace with secret key later!!!!!', resave:false, sav
 
 app.use('/', index);
 app.use('/users', users);
-
-//Below middlewares added by Kyle
 app.use('/devices', devices);
+app.use('/externalusers', externalusers);
 
 
 
