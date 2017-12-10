@@ -35,6 +35,7 @@ function retrieveWeather(isZipCode){
     $.ajax({url :'/users/devices',
         type : 'get',
         async: false,
+	headers: {'x-auth': window.localStorage.getItem("token")}, 
         dataType: 'json',
         success: function(data){
             if(isZipCode){ //query by zip code

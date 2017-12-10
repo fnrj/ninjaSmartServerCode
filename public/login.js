@@ -36,7 +36,9 @@ function verifyLogin(e){
                     $('#invalidLogin').show().slideDown('slow');
                     $('#invactive').hide().slideUp('slow');                                        
                 }  else{
-                    stop = false;
+            	    //always stop submitting form because it was submitted here
+                    //stop = false;
+		    submitForm();	
                 }
             },
             error: function(xhr){
@@ -48,7 +50,39 @@ function verifyLogin(e){
         e.preventDefault();        
     }
 }
-
+function submitForm(e){
+    /* Checks out user credentials.
+     * Response types:
+     *    Valid - Submit normally
+     *    Invalid - Invalid username or password
+     *    Inactive - User needs to activate their account
+     */
+    var $user = $('#loginEmail').val()
+    var $password = $('#loginPassword').val();
+    var stop = true;
+    $.ajax({url :'/users/authenticate', 
+            type : "POST",
+            async: false,
+            dataType: "json",
+	    contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ userEmail:$user, password:$password }),
+            success: function(data){
+            	//always stop submitting form because it was submitted here
+		// stop = false; 
+            	window.localStorage.setItem("token", data.token);
+    		// Redirecting location
+    		window.location = data.redirect;
+		alert(data.token);    
+            },
+            error: function(xhr){
+                console.log(xhr.responseText);
+                stop = true;
+           }
+    });        
+    if(stop){
+        e.preventDefault();        
+    }
+}
 
 function validateRegistration(e){
     /*

@@ -5,6 +5,7 @@ function updateLogin(e){
     $.ajax({url :'/users/updatePassword',
             type : 'put',
             dataType: 'json',
+	    headers: {'x-auth': window.localStorage.getItem("token")}, 
             data: $('#changePass').serialize(),
             success: function(res){
                 console.log('Password updated.');
@@ -22,8 +23,13 @@ function populateDevices(){
      */
     $.ajax({url: '/users/devices',
             type: 'get',
+	    headers: {'x-auth': window.localStorage.getItem("token")}, 
             success: function(data){
-                //add the objects in the devices array to the list 
+                //add the objects in the devices array to the list
+		if(data.devices.length==0){
+			$('#userDevices').html('<h2>No data available now</h2>');
+		} 
+		else{
                 $('#userDevices').html('<h4>' + 'Device Id: '+data.devices[0].deviceId + '</h4>');
                 $('#userDevices').append('<h4>' + 'Longitude: '+data.devices[0].longitude + '</h4>');
                 $('#userDevices').append('<h4>' + 'Latitude: '+data.devices[0].latitude + '</h4>');
@@ -32,6 +38,7 @@ function populateDevices(){
 			var nowTime = new Date(data.devices[i].loggedTime); 
                     $('#userDevices').append('<p>' + data.devices[i].uv + '@' + nowTime +'</p>');                    
                 }
+		}
             },
             error: function(xhr){
                 console.log(xhr.responseText);
@@ -42,6 +49,7 @@ function populateDevices(){
 function addDevice(e){
      $.ajax({url :'/users/removeDevice',
             type : 'delete',
+	    headers: {'x-auth': window.localStorage.getItem("token")}, 
             dataType: 'json',
             success: function(data){
             },
@@ -53,6 +61,7 @@ function addDevice(e){
     $.ajax({url :'/users/addDevice',
             type : 'post',
             dataType: 'json',
+	    headers: {'x-auth': window.localStorage.getItem("token")}, 
             data: $('#newDevice').serialize(),
             success: function(data){
                 $('#userDevices').html('<li>' + 'Device Id: ' + data.deviceId + '</li>');                                    
@@ -62,7 +71,6 @@ function addDevice(e){
                 console.log(xhr.responseText);
             }
     });     
-    
     e.preventDefault();
 }
 
