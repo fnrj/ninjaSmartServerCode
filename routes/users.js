@@ -189,8 +189,13 @@ router.post('/dashboard', function(req, res, next){
     })
 });
 
+var jwt = require("jwt-simple");
+var secret = "alexkylesteph513";
 /* Intermediate route: form posts to auth. Redirect to dashboard if the user is logged in. */
 router.post('/authenticate', function(req, res, next){
+    console.log("Authenticate...");
+    console.log(req.body.userEmail);
+    console.log(req.body.password);
     User.findOne({$and: [{userEmail: req.body.userEmail}, {password: req.body.password}]}, function(err, acc){
         //first 2 cases need some kind of error handling, i.e. redirecting to login page
         if(!acc){
@@ -198,8 +203,11 @@ router.post('/authenticate', function(req, res, next){
         } else if(!acc.active){
             return res.status(400).send(JSON.stringify({message: "Account exists but is not activated!"}));
         } else{
-            req.session.user = req.body.userEmail;
-            res.redirect('../dashboard.html');
+            var token = jwt.encode({userEmail : req.body.userEmail}, secret);
+            //req.session.user = req.body.userEmail;
+            req.session.user = token;
+            //res.redirect('../dashboard.html');
+	    res.status(200).json({ token: token , redirect: '/dashboard.html'});
         }
     });
 })
@@ -250,7 +258,8 @@ router.get('/search', function(req, res, next){
 /*Request for extracting the user from the database*/
 router.get('/current', function(req, res, next){
     if(req.session.user){
-        return res.status(200).send(JSON.stringify({user: req.session.user}));
+    var decoded = jwt.decode(req.session.user, secret);
+        return res.status(200).send(JSON.stringify({user: decoded.userEmail}));
     }else{
         return res.status(200).send(JSON.stringify({message: "No user!"}));
     }
@@ -263,7 +272,17 @@ router.get('/logout', function(req, res, next){
 
 /*Force redirect user out of the dashboard if they are not logged in.*/
 router.get('/profile', function(req, res, next){
-    User.findOne({userEmail:req.session.user}, function(err, acc){
+    if (!req.headers["x-auth"] ) { 
+        return res.status(401).json({error: "Missing X-Auth header"});
+    }
+    var token = req.headers["x-auth"];
+    var decoded = jwt.decode(token, secret);
+    if(!req.session.user ||
+         req.session.user!==token
+	){
+        return res.status(400).send(JSON.stringify({'message':'User is not logged in!'}));
+    }
+    User.findOne({userEmail:decoded.userEmail}, function(err, acc){
         //if query fails return 400 - this will kick out to login.html
         if(err || !acc){
             return res.status(400).send(JSON.stringify({message: "Query failed! Check log in."}));
@@ -282,13 +301,20 @@ router.get('/profile', function(req, res, next){
 
 /* Get all of the user's devices*/
 router.get('/devices', function(req, res, next){
-    if(!req.session.user){
+    if (!req.headers["x-auth"] ) { 
+     	return res.status(401).json({error: "Missing X-Auth header"});
+    }
+    var token = req.headers["x-auth"];
+    var decoded = jwt.decode(token, secret);
+    if(!req.session.user||
+        req.session.user!==token
+	){
         return res.status(400).send(JSON.stringify({'message':'User is not logged in!'}));
     }
 
     //Device.find({userEmail : req.session.user}, {deviceId:1, _id:0}, function(err, devices){
     //Now each user only has one device, list last 5 recent data 
-    Device.find({userEmail : req.session.user}).sort({ "lastContact": "desc" }).limit(5).exec( function(err, devices){
+    Device.find({userEmail : decoded.userEmail}).sort({ "lastContact": "desc" }).limit(5).exec( function(err, devices){
         if(err){
             return res.status(400).send(JSON.stringify({'message': 'Query failed. Could not look up user.'}))
         } else{
@@ -299,21 +325,26 @@ router.get('/devices', function(req, res, next){
     
 })
 
-
-
 /* Update the user's password */
 router.put('/updatePassword', function(req, res, next){
     if( !req.body.hasOwnProperty("oldPassword1") || !req.body.hasOwnProperty("oldPassword2") || !req.body.hasOwnProperty("newPassword")) {
         return res.status(400).send(JSON.stringify({'message':'Did not fill out password fields correctly!'})); //also checked on front end 
     }
-    if(!req.session.user){
+    if (!req.headers["x-auth"] ) { 
+        return res.status(401).json({error: "Missing X-Auth header"});
+    }
+    var token = req.headers["x-auth"];
+    var decoded = jwt.decode(token, secret);
+    if(!req.session.user ||
+         req.session.user!==token
+	){
         return res.status(400).send(JSON.stringify({'message':'User is not logged in!'}));
     }
     if(req.body.oldPassword1 != req.body.oldPassword2){
         return res.status(400).send(JSON.stringify({'message': 'Passwords do not match!'}));
     }
 
-    User.findOneAndUpdate({userEmail:req.session.user}, { $set: { password: req.body.newPassword } }, function(err, acc) {
+    User.findOneAndUpdate({userEmail:decoded.userEmail}, { $set: { password: req.body.newPassword } }, function(err, acc) {
         if(err){
             return res.status(400).send(JSON.stringify({message: 'Could not look up the session user.'}));
         } else{
@@ -327,10 +358,17 @@ router.put('/updatePassword', function(req, res, next){
 })
 
 router.delete('/removeDevice', function(req, res, next){
-  	if(!req.session.user){
+    	if (!req.headers["x-auth"] ) { 
+        	return res.status(401).json({error: "Missing X-Auth header"});
+    	}
+    	var token = req.headers["x-auth"];
+    	var decoded = jwt.decode(token, secret);
+	if(!req.session.user||
+         req.session.user!==token
+	){
         	return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
     	}	
- 	Device.remove({userEmail: req.session.user}, function(err){
+ 	Device.remove({userEmail: decoded.userEmail}, function(err){
         if(err){
             res.status(400).send(JSON.stringify({message: "Could not complete your request."}));
         } else{
@@ -340,14 +378,18 @@ router.delete('/removeDevice', function(req, res, next){
 });
 
 
-
-
 /* Add a device for an existing user */
 router.post('/addDevice', function(req, res, next){
-    if(!req.session.user){
+    if (!req.headers["x-auth"] ) { 
+        return res.status(401).json({error: "Missing X-Auth header"});
+    }
+    var token = req.headers["x-auth"];
+    var decoded = jwt.decode(token, secret);
+    if(!req.session.user ||
+         req.session.user!==token
+	){
         return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
     }
-    
     Device.findOne({deviceId: req.body.newDevice}, function(err, device){
         if(device !== null){
             console.log(device);
@@ -358,7 +400,7 @@ router.post('/addDevice', function(req, res, next){
                 apikey: deviceApikey,
                 //deviceId: req.body.deviceId,
                 deviceId: req.body.newDevice,
-                userEmail: req.session.user
+                userEmail: decoded.userEmail
             });          
             newDevice.save(function(err, newDevice){
                 if(err){
@@ -370,10 +412,6 @@ router.post('/addDevice', function(req, res, next){
         }
     });
 })
-
 /* Delete a device for the user */
-
-
-
 
 module.exports = router;
