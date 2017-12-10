@@ -45,13 +45,14 @@
             You can get data from us with AJAX GET requests, which you can find lots of information for online. We have a couple of examples of what our query strings typically look like shown below. If you want to try a query out before getting started in AJAX, paste the URL into the corresponding text field, and we'll show you the response.<br><br>
 
             <h3 class="emphasis">Querying by Zip Code</h3>        
-            query format: http://localhost:3000/externalusers/weather?zipcode={zipcode}&key={apikey}
+            query format: http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/externalusers/weather?zipcode={zipcode}&key={apikey}
+            
             <div id="zipTest" class = "emphasis hidden"></div>                  
             <input type="text" name="zipQuery" id="zipQuery">	
             <a href="" onclick="return false;" class = "buttonLink" id = "zipButton">Get Zipcode Query Results</a> <br>
                 
             <h3 class="emphasis">Querying by Latitude and Longitude</h3>        
-            query format: http://localhost:3000/externalusers/weather?lat={latitude}&lon={longitude}&key={apikey}
+            query format: http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/externalusers/weather?lat={latitude}&lon={longitude}&key={apikey}
             <div id="coordTest" class = "emphasis hidden"></div>  
             <input type="text" name="coordQuery" id="coordQuery">			    		
             <a href="" onclick="return false;" class = "buttonLink" id = "coordButton">Get Lat/Lon Query Results</a>
