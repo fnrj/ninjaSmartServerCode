@@ -76,9 +76,9 @@ function runQuery(queryObject){
         dataType: 'json',
         success: function(data){
             if(data.hasOwnProperty("averageUV")){
-                $(queryObject.destId).text('Current average UV exposure: ' + data.averageUV);
+                $(queryObject.destId).text('Average UV exposure response: ' + data.averageUV);
             }else{
-                $(queryObject.destId).text('Nice query, but we have nothing to report!');                
+                $(queryObject.destId).text(data.message);                
             }
         },
         error: function(xhr){

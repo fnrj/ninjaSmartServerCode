@@ -100,7 +100,7 @@ function aggregate(devices){
     }
     if(cnt > 0){
         return {'averageUV' : average/cnt};
-    }else{
+    }else{        
         return {'message' : 'No data to return! That area does not have any active photons'};
     }
     
