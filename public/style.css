@@ -398,7 +398,23 @@ display: inline-block;
 height: 30%;
 }
 
+#profileSettings {
+  display: flex;
+}
+
 #profile {
-	height: 50px;
-	width: 50px;
+	height: 14vh;
+	width: 7vw;
+}
+
+#warnImg {
+	height: 14vh;
+	width: 7vw;
+}
+
+#warnIn {
+	padding-top: 3vh;
+	padding-left: 35vw;
+	text-align: center;
+	font-family: Arial, sans-serif;
 }
