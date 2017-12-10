@@ -388,14 +388,14 @@ color:black;
 }
 
 #twitter-timeline {
-width: 30%;
-height: 30%;
+    width: 30%;
+    height: 30%;
 }
 
 #twitter-timeline:eq(2) {
-width: 30%;
-display: inline-block;
-height: 30%;
+    width: 30%;
+    display: inline-block;
+    height: 30%;
 }
 
 #profileSettings {
@@ -417,4 +417,43 @@ height: 30%;
 	padding-left: 35vw;
 	text-align: center;
 	font-family: Arial, sans-serif;
+}
+
+
+.emphasis {
+    font-size: 16pt;;
+    text-decoration: underline;
+}
+
+.guide{
+    text-align: center;
+    margin-left: 15%;
+    margin-right: 15%;    
+}
+
+.guide input{
+    margin: 0 auto;        
+    display: block;
+    font-size: 13pt;
+    border: 1px solid black;
+    margin-bottom: 5px;
+    width: 40%;
+}
+.guide a{
+    margin: 0 auto;    
+    padding-top: 4px;
+    width: 25%;
+}
+
+.minipane{
+	font-family: Arial;
+	vertical-align: center;
+	line-height: 100px;
+	width: 100%;
+	position:relative;
+	display: block;
+	text-align: center;
+	color: white;
+	font-size: 32pt; 
+	background: rgba(0,0,0,.6);     
 }
