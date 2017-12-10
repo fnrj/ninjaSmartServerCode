@@ -93,20 +93,6 @@ header{
 	background: rgba(0,0,0,.6);     
 }
 
-.minipane{
-	font-family: Arial;
-	vertical-align: center;
-	line-height: 100px;
-	width: 100%;
-	position:relative;
-	display: block;
-	text-align: center;
-	color: white;
-	font-size: 32pt; 
-	background: rgba(0,0,0,.6);     
-}
-
-
 /*END CONTENT PANE */
 
 /*UV INTENSITY*/
@@ -264,14 +250,14 @@ izing */
 {
 	/*fix the top left corner at center*/
 	position: absolute;
-	top: 50%;
-	left: 50%;
+	top: 50vh;
+	left: 50vw;
 	/*Translate to actually center on the page*/
 	transform: translate(-50%, -50%);
 
 	/*Physical constraints*/
-	width: 25%;
-	height: 50%;
+	width: 50vw;
+	height: 50vh;
 
 	/*Visibility and panel coloring*/
 	background-color: rgba(0,0,0,.7);
@@ -415,47 +401,4 @@ height: 30%;
 #profile {
 	height: 50px;
 	width: 50px;
-}
-
-
-#warnIn{
-    position: absolute;
-    top: 0; bottom:0; left: 0; right:0;
-    width: 80px;
-    object-fit: contain;
-}
-
-#warnOut{
-    position: relative;
-    width: 80px;
-    text-align: center;        
-}
-
-#warnImg{
-    width: 70px;
-}
-
-.emphasis {
-    font-size: 16pt;;
-    text-decoration: underline;
-}
-
-.guide{
-    text-align: center;
-    margin-left: 15%;
-    margin-right: 15%;    
-}
-
-.guide input{
-    margin: 0 auto;        
-    display: block;
-    font-size: 13pt;
-    border: 1px solid black;
-    margin-bottom: 5px;
-    width: 40%;
-}
-.guide a{
-    margin: 0 auto;    
-    padding-top: 4px;
-    width: 25%;
 }
