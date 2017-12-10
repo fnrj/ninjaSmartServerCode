@@ -436,7 +436,7 @@ height: 30%;
 }
 
 .emphasis {
-    font-size: 16;
+    font-size: 16pt;;
     text-decoration: underline;
 }
 
@@ -449,9 +449,10 @@ height: 30%;
 .guide input{
     margin: 0 auto;        
     display: block;
-    font-size: 15pt;
+    font-size: 13pt;
     border: 1px solid black;
     margin-bottom: 5px;
+    width: 40%;
 }
 .guide a{
     margin: 0 auto;    

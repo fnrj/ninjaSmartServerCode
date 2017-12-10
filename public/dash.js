@@ -95,8 +95,17 @@ function retrieveWeather(isZipCode){
     });   
 }
 
+function forceRemove(){
+    $.get("/users/current", function(data, status){
+        if(!data.user){
+            //redirect to home page
+            window.location.href = "/index.html";            
+        } 
+    }, "json");
+}
 
 $(document).ready(function(){
+    forceRemove()
     retrieveWeather(false);
     retrieveWeather(true);
 });
