@@ -7,11 +7,17 @@
 
 
 function extractUV(weatherData){
-    //
     uvIndexes = [];
+
+    console.log(weatherData.data);
     for(var i=0; i < weatherData.data.length; i++){
         uvIndexes.push(weatherData.data[i].uv);
     }
+    console.log(uvIndexes);
+    if(Math.max.apply(null, uvIndexes) >= 6){
+        $('#warnOut').show();
+    }    
+    console.log(Math.max.apply(null, uvIndexes));
     return uvIndexes;
 }
 
@@ -48,10 +54,9 @@ function retrieveWeather(isZipCode){
                 new Chart(insertLoc, {
                     type: 'line',
                     data: {
-                        labels: ['Earliest', '', '', '', '', '', '', '', '', '','', '', '', '', '', '', '', '', '', '','', '', '', '', '', '', '', '', '', '','', '', '', '', '', '', '', '', '', 'Newest'],
+                        labels: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
                         datasets: [{ 
                             data: extractUV(weatherData),
-                            label: "UV Exposure: 5 day forecast",
                             borderColor: color,
                             fill: true 
                         }]
@@ -61,7 +66,25 @@ function retrieveWeather(isZipCode){
                         title: {
                             display: true,
                             text: title
-                        }, 
+                        },   
+                        legend: {
+                            display: false
+                        },                        
+                        scales: {
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'UV Index'
+                                }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'UV Predictions for Next 5 Days'
+                                }
+                            }]                            
+                        }
+                        
                     }
                 });
             })

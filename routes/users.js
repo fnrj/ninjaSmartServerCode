@@ -9,7 +9,7 @@ function getNewApikey() {
     var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     
     for (var i = 0; i < 32; i++) {
-	newApikey += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+	   newApikey += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
     }
     return newApikey;
 }
@@ -302,21 +302,21 @@ router.get('/devices', function(req, res, next){
 
 /* Update the user's password */
 router.put('/updatePassword', function(req, res, next){
-    if( !req.body.hasOwnProperty("oldPassword1") || !req.body.hasOwnProperty("oldPassword2") || !req.body.hasOwnProperty("newPassword")) {
+    if( !req.body.hasOwnProperty("oldPassword") || !req.body.hasOwnProperty("newPassword1") || !req.body.hasOwnProperty("newPassword2")) {
         return res.status(400).send(JSON.stringify({'message':'Did not fill out password fields correctly!'})); //also checked on front end 
     }
     if(!req.session.user){
         return res.status(400).send(JSON.stringify({'message':'User is not logged in!'}));
     }
-    if(req.body.oldPassword1 != req.body.oldPassword2){
+    if(req.body.newPassword1 != req.body.newPassword2){
         return res.status(400).send(JSON.stringify({'message': 'Passwords do not match!'}));
     }
 
-    User.findOneAndUpdate({userEmail:req.session.user}, { $set: { password: req.body.newPassword } }, function(err, acc) {
+    User.findOneAndUpdate({userEmail:req.session.user}, { $set: { password: req.body.newPassword1 } }, function(err, acc) {
         if(err){
             return res.status(400).send(JSON.stringify({message: 'Could not look up the session user.'}));
         } else{
-            if(req.body.oldPassword1 != acc.password){
+            if(req.body.oldPassword != acc.password){
                 return res.status(400).send(JSON.stringify({message: 'Invalid password entered.'}));
             }
             return res.status(200).send(JSON.stringify({message: 'Your password was updated'}));
