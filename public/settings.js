@@ -41,7 +41,7 @@ function populateDevices(){
 		}
             },
             error: function(xhr){
-                console.log(xhr.responseText);
+                //console.log(xhr.responseText);
             }
     });
 }
@@ -75,8 +75,112 @@ function addDevice(e){
 }
 
 
-$(document).ready(function(){
+
+
+
+
+
+
+function extractUV(weatherData){
+    uvIndexes = [];
+
+    console.log(weatherData.data);
+    for(var i=0; i < weatherData.data.length; i++){
+        uvIndexes.push(weatherData.data[i].uv);
+    }
+    console.log(uvIndexes);
+    if(Math.max.apply(null, uvIndexes) >= 6){
+        $('#warnOut').show();
+    }    
+    return uvIndexes;
+}
+
+function generateAxis(sampledata){
+    var axArr = [];
+    for(var i = 0; i < sampledata.length; i++){
+        axArr.push('');
+    }
+    return axArr;
+}
+
+
+
+function displayUserGraph(){
+    /*
+     * Retrieve the graph associated with the current user's device. 
+     *
+     * MAKE SURE PROFILE CANNOT BE ACCESSED WITHOUT LOGIN 
+     */
+    //$.ajax({url: ''
+    //       type: 'get', 
+    //       datatype: 'json',
+    //       success: 
+    $.ajax({'url': '/users/usersession/graph/data',
+            'type': 'get',
+            'dataType': 'json',
+            'success': function(data){
+                console.log('data received!!!');
+                console.log(data);
+                new Chart($('#graph'), {
+                    type: 'line',
+                    data: {
+                        labels: generateAxis(data.uv),
+                        datasets: [{ 
+                            data: data.uv,
+                            borderColor: '#859272',
+                            fill: true 
+                        }]
+                    },
+                    options: {
+                        responsive: false,                        
+                        title: {
+                            display: true,
+                            text: 'Your Photon\'s Recent UV Exposure'
+                        },   
+                        legend: {
+                            display: false
+                        },                        
+                        scales: {
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'UV Index'
+                                }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Time'
+                                }
+                            }]                            
+                        } 
+                    }
+                });    
+            }
+    })
+    
+}
+
+function forceRemove(){
+    $.get("/users/current", function(data, status){
+        if(!data.user){
+            //redirect to home page
+            window.location.href = "/index.html";            
+        } else{
+            createPage();
+        }
+    }, "json");
+}
+
+function createPage(){
+    //create the page if user is logged in
+    displayUserGraph();
     $('#changePass').submit(updateLogin);
     $('#addDevice').submit(addDevice);
     populateDevices();
+}
+
+
+$(document).ready(function(){
+    forceRemove();
 });

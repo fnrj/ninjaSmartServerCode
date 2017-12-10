@@ -8,6 +8,7 @@
 </head>
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type = "text/javascript" src ="chart.js"></script>
     <script type="text/javascript" src = "nav.js"></script>
     <script type="text/javascript" src = "settings.js"></script>
 
@@ -37,8 +38,10 @@
 			     <input type="password" name="newPassword2" id="newPassword2">
 			     <input type="submit" name="Submit" value="Update Password">			    		
 			 </form>	
-            
+        
             <h1>Your Device</h1>
+            <canvas id="graph" width=500 height=400 style='width:500px;height:400px'></canvas>
+            
             <div id = 'userDevices'></div>
             <form method="POST" action="users/addDevice" id="addDevice">
  			      <input type="text" name="newDevice" id="newDevice">	

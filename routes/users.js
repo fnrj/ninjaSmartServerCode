@@ -412,6 +412,27 @@ router.post('/addDevice', function(req, res, next){
     });
 })
 
+router.get('/usersession/graph/data', function(req, res, next){
+    //retrieve user's devices sorted by logged time
+    return res.status(200).send({uv:[1,2,3,4,5, 1, 2]});
+    Device.find({userEmail : req.session.user}).sort({loggedtime: -1}, function(err, devices){
+        if(err){
+            return res.status(400).send(JSON.stringify({'message':err}));                    
+        } else{
+            return res.status(200).send( JSON.stringify( {uv:rawToUVI(devices)} ) );            
+        }
+    })
+})
+
+
+function rawToUVI(devices){
+    var UVI = [];
+    for(var i = 0; i < devices.length; i++){
+        UVI.append(/* Conversion equation goes here */);
+    }
+    return UVI;
+}
+
+
 
 module.exports = router;
-
