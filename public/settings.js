@@ -26,7 +26,7 @@ function populateDevices(){
 	    headers: {'x-auth': window.localStorage.getItem("token")}, 
             success: function(data){
                 //add the objects in the devices array to the list
-		if(data.devices.length==0){
+		if(data.devices.length===0){
 			$('#userDevices').html('<h2>No data available now</h2>');
 		} 
 		else{

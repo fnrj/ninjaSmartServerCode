@@ -38,14 +38,14 @@ function retrieveWeather(isZipCode){
         dataType: 'json',
         success: function(data){
             if(isZipCode){ //query by zip code
-                endpoint = endpoint + '&postal_code=' + data.devices.zipCode + '&country=US' +apikey;
-                title = '5 day forecast for zip code: ' + data.devices.zipCode;
+                endpoint = endpoint + '&postal_code=' + data.devices[0].zipCode + '&country=US' +apikey;
+                title = '5 day forecast for zip code: ' + data.devices[0].zipCode;
                 insertLoc = $('#uvGraphZip');
                 color = "#3e95cd"
                 
             } else{ //query by latitude and longitude
-                endpoint = endpoint + '&lat=' + data.devices.latitude + '&lon=' + data.devices.longitude + apikey;
-                title = '5 day forecast for latitude: ' + data.devices.latitude + ' longitude: ' + data.devices.longitude; 
+                endpoint = endpoint + '&lat=' + data.devices[0].latitude + '&lon=' + data.devices[0].longitude + apikey;
+                title = '5 day forecast for latitude: ' + data.devices[0].latitude + ' longitude: ' + data.devices[0].longitude; 
                 insertLoc = $('#uvGraphLat');     
                 color = "#8e5ea2"
             }
