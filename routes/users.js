@@ -23,7 +23,7 @@ function sendMail(userEmail) {
     
     emailBody = `<b>Thanks for signing up for Sunsmart!</b> 
     To confirm your account, click the button below.
-    <form action= "http://localhost:3000/users/confirm/`+userEmail+`" method="POST">
+    <form action= "http://ec2-13-58-6-147.us-east-2.compute.amazonaws.com/users/confirm/`+userEmail+`" method="POST">
         <button type = "submit" name = "confirmation button">Confirm my account!</button>
     </form>`
     
@@ -149,11 +149,11 @@ router.post('/register', function(req, res, next) {
                     });
                 }                
             });
-        } // from find user error
+        } 
     });
 });
 
-// Confirm a user and activate their account (can't use put from straight HTML)
+/* Confirm a user and activate their account */
 router.post('/confirm/:email', function(req, res, next) {
     console.log('Attempting to activate account: ' + req.params.email);
     User.findOne({ userEmail: req.params.email }, function(err, acc) {
@@ -175,7 +175,7 @@ router.post('/confirm/:email', function(req, res, next) {
     });  
 });
 
-// Create a session for the user.
+/* Create a session for the user. */
 router.post('/dashboard', function(req, res, next){
     console.log(req.body);
     User.findOne({$and: [{userEmail: req.body.userEmail}, {password: req.body.password}]}, function(err, acc){
@@ -188,6 +188,7 @@ router.post('/dashboard', function(req, res, next){
         }
     })
 });
+
 
 /* Intermediate route: form posts to auth. Redirect to dashboard if the user is logged in. */
 router.post('/authenticate', function(req, res, next){
@@ -204,9 +205,10 @@ router.post('/authenticate', function(req, res, next){
     });
 })
 
+
+/* Look up the user account to determine status of login attempt */
 router.get('/:email/:password', function(req, res, next){
-            console.log(req.params.email);
-            console.log(req.params.password);
+     
     User.findOne({$and: [{userEmail: req.params.email}, {password: req.params.password}]}, function(err, acc){
         if(!acc){
             return res.status(200).send(JSON.stringify({message: "invalid"}));
@@ -219,10 +221,8 @@ router.get('/:email/:password', function(req, res, next){
 })
 
 
-/*************************************************************************
- *                              DEBUGGING ROUTES                         *                             
- *************************************************************************/
-// DELETE request for removing a user from the database
+
+/* DELETE request for removing a user from the database*/
 router.delete('/remove/:email', function(req, res, next){
     Device.remove({userEmail: req.params.email}, function(err){
         if(err){
@@ -233,18 +233,12 @@ router.delete('/remove/:email', function(req, res, next){
     })
 });
 
-// GET request for retrieving all users form the database
+/* GET request for retrieving all users form the database */
 router.get('/searching', function(req, res, next){
     User.find({}, function(err, acc){
         res.status(200).send(JSON.stringify(acc));
     }); 
 })
-
-
-
-/*************************************************************************
- *                         END  DEBUGGING ROUTES                         *                             
- *************************************************************************/
 
 
 /*Request for extracting the user from the database*/
@@ -268,8 +262,6 @@ router.get('/profile', function(req, res, next){
         if(err || !acc){
             return res.status(400).send(JSON.stringify({message: "Query failed! Check log in."}));
         } else{
-            console.log(acc.password);
-            console.log(acc.password.length);
             return res.status(200).send(JSON.stringify(
                 {devices: acc.devices, 
                  userEmail: acc.userEmail, 
@@ -325,6 +317,7 @@ router.put('/updatePassword', function(req, res, next){
 
 })
 
+/* Delete a device for the user */
 router.delete('/removeDevice', function(req, res, next){
   	if(!req.session.user){
         	return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
@@ -369,10 +362,6 @@ router.post('/addDevice', function(req, res, next){
         }
     });
 })
-
-/* Delete a device for the user */
-
-
 
 
 module.exports = router;

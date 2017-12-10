@@ -4,7 +4,8 @@ var ExternalUser = require("../models/externaluser");
 var Device = require("../models/device");
 var User = require("../models/user");
 
-//update me to be unique
+
+/* Generates an API key */
 function getNewApikey() {
     var newApikey = "";
     var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -14,6 +15,7 @@ function getNewApikey() {
     return newApikey;
 }
 
+/* Registers a user and gives back a new API key*/
 router.post('/registerKey', function(req, res, next){
     var newKey = getNewApikey();
     var newUser = new ExternalUser({
@@ -32,12 +34,14 @@ router.post('/registerKey', function(req, res, next){
     })
 })
 
+/* Return the whole external user database*/
 router.get('/display', function(req, res, next){
     ExternalUser.find({}, function(err, acc){
         res.status(200).send(JSON.stringify(acc));
     }); 
 })
 
+/* Checks to see if an API key is valid */
 router.post('/verify', function(req, res, next){
     console.log(req.body.apikey);
     ExternalUser.find({apikey : req.body.apikey}, function(err, acc){
@@ -54,7 +58,7 @@ router.post('/verify', function(req, res, next){
     });
 })
 
-
+/*3rd party API zip code/lat/lon queries */
 router.get('/weather', function(req, res, next){
     if(!req.query.hasOwnProperty("key")){
         return res.status(400).send(JSON.stringify({message: 'No API key specified!'}));
@@ -82,7 +86,7 @@ router.get('/weather', function(req, res, next){
     
 });
 
-
+/* Average activated photons and return average UV exposure*/
 function aggregate(devices){
     var average = 0;
     var cnt = 0;
