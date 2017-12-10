@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
 	<title>Sunsmart - Login</title>
-	<link rel="stylesheet" type="text/css" href="style.css">	
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
 </head>
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -18,8 +19,8 @@
 	    <header>
 	    	<div class = "navbar" id = "navhead">
 			    <a href="index.html" class = "navelmt">Home</a>
-				<a href="about.html" class = "navelmt">About</a>                
-				<a href="api.html" class = "navelmt">API</a>    	
+				<a href="about.html" class = "navelmt">About</a>
+				<a href="products.html" class = "navelmt">Products</a>    	
 				<a href="contact.html" class = "navelmt">Contact</a>
 				<a href="login.html" class = "navelmt" id = "login">Login</a>   	
 				<a href="login.html" class = "navelmt" id = "logout">Logout</a>   
@@ -34,7 +35,7 @@
 	    			<div class="greeting">
 	    				Please Sign In
 	    			</div>
-			    	<form id = "signin">
+			    	<form method="POST" action="/users/authenticate" id = "signin">
 			    		<input type="text" name="userEmail" placeholder="Email" id = "loginEmail">
 			    		<input type="password" name="password" placeholder="Password" id = "loginPassword">
 			    		<input type="submit" name="Submit" value="Sign in">
@@ -59,7 +60,7 @@
 			    		<input type="text" name="userEmail" placeholder="Email" id="registerEmail">			    		
 			    		<input type="text" name="deviceId" placeholder="Device ID" id="deviceId">			    		
 			    		<input type="password" name="password" placeholder="Strong password" id="registerPassword">
-			    		<input type="submit" name="Submit" value="Create my account">			    		
+			    		<input type="submit" name="Submit" value="Create account">			    		
 			    	</form>	   	    
                     <div id="registerError"> 
                         <ul class = errormsgs id=rErrorMessages></ul>
