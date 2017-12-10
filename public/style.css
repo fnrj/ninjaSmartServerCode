@@ -402,3 +402,21 @@ height: 30%;
 	height: 50px;
 	width: 50px;
 }
+
+
+#warnIn{
+    position: absolute;
+    top: 0; bottom:0; left: 0; right:0;
+    width: 80px;
+    object-fit: contain;
+}
+
+#warnOut{
+    position: relative;
+    width: 80px;
+    text-align: center;        
+}
+
+#warnImg{
+    width: 70px;
+}

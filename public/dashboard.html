@@ -12,9 +12,6 @@
     <script type="text/javascript" src = "dash.js"></script>
     <script type = "text/javascript" src ="chart.js"></script>
     
-    
-    
-    </script>>
     <!--<script type="text/javascript" src = "script.js"></script>-->
     <img id="background" src="res/summer.jpg" border="0" alt="backgroundImage">
     <div class="pagewrap">
@@ -25,17 +22,17 @@
 				<a href="about.html" class = "navelmt">About</a>
 				<a href="products.html" class = "navelmt">Products</a>    	
 				<a href="contact.html" class = "navelmt">Contact</a>
-				<a href="login.html" class = "navelmt" id = "login">Login</a>   	
-				<a href="login.html" class = "navelmt hidden" id = "logout">Logout</a>   
+				<a href="login.html" class = "navelmt" id = "logout">Logout</a>   
             </div>
 	    </header>
 	    <!-- Container holding login/registration panels -->
 
 <div class = "container" id = "userData">
 	<div class="container" id="profileSettings">
-	           <a href="settings.html" class = "navelmt" id = "login"><img id="profile" src="res/profile.png" alt="profilePic"><br>Profile Settings</a>  
+        <a href="settings.html" class = "navelmt" ><img id="profile" src="res/profile.png" alt="profilePic"><br>Profile Settings</a> 
+        <div id=warnOut class="hidden"><div id= "warnIn"><img id="warnImg" src="res/warning.png" alt="warning">High UV!</div></div>
 	</div>
-    <div class="container" id="uvExposure" >'
+    <div class="container" id="uvExposure" >
         <center>
             <canvas id="uvGraphLat" width=500 height=400 style='width:500px;height:400px'></canvas>
             <canvas id="uvGraphZip" width=500 height=400 style='width:500px;height:400px'></canvas>

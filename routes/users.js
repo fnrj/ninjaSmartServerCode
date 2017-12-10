@@ -234,8 +234,8 @@ router.delete('/remove/:email', function(req, res, next){
 });
 
 // GET request for retrieving all users form the database
-router.get('/search', function(req, res, next){
-    Device.find({}, function(err, acc){
+router.get('/searching', function(req, res, next){
+    User.find({}, function(err, acc){
         res.status(200).send(JSON.stringify(acc));
     }); 
 })
@@ -376,3 +376,41 @@ router.post('/addDevice', function(req, res, next){
 
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

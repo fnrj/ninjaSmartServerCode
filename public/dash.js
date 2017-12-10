@@ -17,7 +17,6 @@ function extractUV(weatherData){
     if(Math.max.apply(null, uvIndexes) >= 6){
         $('#warnOut').show();
     }    
-    console.log(Math.max.apply(null, uvIndexes));
     return uvIndexes;
 }
 
