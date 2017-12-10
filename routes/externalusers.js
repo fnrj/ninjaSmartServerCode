@@ -1,4 +1,3 @@
-var request = require("request");
 var express = require('express');
 var router = express.Router();
 var ExternalUser = require("../models/externaluser");
@@ -37,6 +36,22 @@ router.get('/display', function(req, res, next){
     ExternalUser.find({}, function(err, acc){
         res.status(200).send(JSON.stringify(acc));
     }); 
+})
+
+router.post('/verify', function(req, res, next){
+    console.log(req.body.apikey);
+    ExternalUser.find({apikey : req.body.apikey}, function(err, acc){
+        console.log(acc);
+        if(err){
+            res.status(400).send(JSON.stringify({message : "request failed"}));
+        }
+        if(acc.length){
+            res.status(200).send(JSON.stringify({valid: true}));        
+        } 
+        else{
+            res.status(200).send(JSON.stringify({valid: false}));            
+        }
+    });
 })
 
 
@@ -86,32 +101,6 @@ function aggregate(devices){
     }
     
 }
-
-//queryByWeatherAPI({zip:req.query.zipcode});
-//queryByWeatherAPI({latitude: req.query.lat, longitude: req.query.lon});
-
-/*
-
-function queryByWeatherAPI(queryObject){
-    // Query through the sunsmart interface via weatherbit
-    var apikey = '&key=52643b0bc4584b828b5adfaf488c5013';
-    var endpoint = 'https://api.weatherbit.io/v2.0/forecast/3hourly?';
-    responseJSON = '';
-    
-    if(queryObject.hasOwnProperty('zip')){
-        console.log('Querying by zip code');
-        endpoint = endpoint + '&postal_code=' + queryObject.zip + '&country=US' + apikey;
-    } else{
-        console.log('Querying by latitude and longitude');
-        endpoint = endpoint + '&lat=' + queryObject.latitude+ '&lon=' + queryObject.longitude + apikey;        
-    }
-    endpoint = 'https://api.weatherbit.io/v2.0/forecast/3hourly?city=Raleigh,NC' + apikey;
-
-    request.get(endpoint, function(err, res, body){
-        responseJSON = JSON.parse(body);
-    })
-}
-*/
 
 module.exports = router;
 

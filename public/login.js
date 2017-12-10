@@ -64,7 +64,7 @@ function submitForm(e){
             type : "POST",
             async: false,
             dataType: "json",
-	       contentType: "application/json; charset=utf-8",
+	        contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ userEmail:$user, password:$password }),
             success: function(data){
             	//always stop submitting form because it was submitted here
