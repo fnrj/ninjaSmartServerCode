@@ -41,7 +41,7 @@ function populateDevices(){
 		}
             },
             error: function(xhr){
-                //console.log(xhr.responseText);
+                console.log(xhr.responseText);
             }
     });
 }
@@ -73,10 +73,6 @@ function addDevice(e){
     });     
     e.preventDefault();
 }
-
-
-
-
 
 
 
@@ -118,17 +114,16 @@ function displayUserGraph(){
     $.ajax({'url': '/users/usersession/graph/data',
             'type': 'get',
             'dataType': 'json',
+	        'headers': {'x-auth': window.localStorage.getItem("token")},             
             'success': function(data){
-                console.log('data received!!!');
-                console.log(data);
+                console.log('making chart');
                 new Chart($('#graph'), {
                     type: 'line',
                     data: {
                         labels: generateAxis(data.uv),
                         datasets: [{ 
                             data: data.uv,
-                            borderColor: '#859272',
-                            fill: true 
+                            pointBackgroundColor: data.colors
                         }]
                     },
                     options: {
@@ -139,13 +134,20 @@ function displayUserGraph(){
                         },   
                         legend: {
                             display: false
+                                      
                         },                        
                         scales: {
                             yAxes: [{
                                 scaleLabel: {
                                     display: true,
                                     labelString: 'UV Index'
-                                }
+                                },
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 10,
+                                    stepValue: 1,
+                                    max: 10
+                                }                                
                             }],
                             xAxes: [{
                                 scaleLabel: {
@@ -153,7 +155,38 @@ function displayUserGraph(){
                                     labelString: 'Time'
                                 }
                             }]                            
-                        } 
+                        },
+                        
+                        onClick: function(e, activeElements) {
+                            try{
+                                
+                                //update the color of the point on the visible display 
+                                var colorArray = data.colors;
+                                var colormap = ['white', 'green', 'blue', 'red'];
+                                var elementIndex = activeElements[0]._index;
+                                var color = colormap[(colormap.indexOf(this.data.datasets[0].pointBackgroundColor[elementIndex]) + 1) % 4];
+                                colorArray[elementIndex] = color;
+                                this.data.datasets[0].pointBackgroundColor[elementIndex] = color;                           
+                                this.update();
+                                          
+                                //save it out with ajax
+                                $.ajax({url :'/users/usersession/graph/colors',
+                                    type : 'post',
+                                    dataType: 'json',
+	                                headers: {'x-auth': window.localStorage.getItem("token")}, 
+                                    data: {'colors': colorArray},
+                                    success: function(data){
+                                        console.log(data);                                   
+                                    },
+                                    error: function(xhr){
+                                        console.log(xhr.responseText);
+                                    }
+                                });    
+                            } catch(err){
+                                console.log('clicked off point.');
+                            }
+                        }                                                
+                        
                     }
                 });    
             }

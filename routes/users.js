@@ -312,7 +312,6 @@ router.get('/devices', function(req, res, next){
         if(err){
             return res.status(400).send(JSON.stringify({'message': 'Query failed. Could not look up user.'}))
         } else{
-            console.log(devices);
             return res.status(200).send({devices: devices});
         }
     })
@@ -413,17 +412,38 @@ router.post('/addDevice', function(req, res, next){
 })
 
 router.get('/usersession/graph/data', function(req, res, next){
+        
+    if (!req.headers["x-auth"] ) { 
+        return res.status(401).json({error: "Missing X-Auth header"});
+    }
+    var token = req.headers["x-auth"];
+    var decoded = jwt.decode(token, secret);
+    if(!req.session.user ||
+         req.session.user!==token
+	){    
+        return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
+    }
+    
+    console.log('TO QUERY POINTS')
+    var data = [1,2,3,1,2,1,1,2,1,1,2,2] // example data extension for filling with white
+    
     //retrieve user's devices sorted by logged time
-    return res.status(200).send({uv:[1,2,3,4,5, 1, 2]});
-    Device.find({userEmail : req.session.user}).sort({loggedtime: -1}, function(err, devices){
+    User.findOne({userEmail : decoded.userEmail}, function(err, user){
         if(err){
-            return res.status(400).send(JSON.stringify({'message':err}));                    
-        } else{
-            return res.status(200).send( JSON.stringify( {uv:rawToUVI(devices)} ) );            
+            return res.status(400).send(JSON.stringify({'message':err}));                                
+        }else{
+            return res.status(200).send(JSON.stringify({'uv':data, 'colors':extend(user.colors, data)}))
         }
     })
 })
 
+function extend(colors, data){
+    /* Extend the users colors up the same length as data with white nodes*/
+    while(colors.length < data.length){
+        colors.push('white');
+    }
+    return colors;
+}
 
 function rawToUVI(devices){
     var UVI = [];
@@ -432,6 +452,32 @@ function rawToUVI(devices){
     }
     return UVI;
 }
+
+/* Save the colors of the graph */
+router.post('/usersession/graph/colors', function(req, res, next){
+    if (!req.headers["x-auth"] ) { 
+        return res.status(401).json({error: "Missing X-Auth header"});
+    }
+    var token = req.headers["x-auth"];
+    var decoded = jwt.decode(token, secret);
+    if(!req.session.user ||
+         req.session.user!==token
+	){    
+        return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
+    }
+    
+    User.findOneAndUpdate({userEmail:decoded.userEmail}, {$set : {colors : req.body.colors}}, function(err, usr){
+        if(!usr){
+            return res.status(400).send(JSON.stringify({'message': 'Could not find user.'}));
+        } else if(err){
+            console.log(err);
+            return res.status(400).send(JSON.stringify({'message': 'User lookup failed.'}));
+        } else{
+            return res.status(201).send(JSON.stringify({'message': 'Colors have been updated'}));
+        }
+    })    
+})
+
 
 
 
