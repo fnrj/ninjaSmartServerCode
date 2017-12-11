@@ -9,13 +9,21 @@ function updateLogin(e){
             data: $('#changePass').serialize(),
             success: function(res){
                 console.log('Password updated.');
+                $("#oldPassword").val('');
+                $("#newPassword1").val('');
+                $("#newPassword2").val('');
+                $("#passNote").text('Your password has been changed.');                
+                $("#passNote").slideDown();
             },
             error: function(xhr){
                 console.log(xhr.responseText);
+                $("#passNote").text('Invalid credentials.');
+                $("#passNote").slideDown();                
             }
     });      
     e.preventDefault();
 }
+
 
 function populateDevices(){
     /*
