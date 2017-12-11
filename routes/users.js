@@ -423,18 +423,24 @@ router.get('/usersession/graph/data', function(req, res, next){
 	){    
         return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
     }
-    
-    console.log('TO QUERY POINTS')
+    /* Alex's code for color querying at this endpoint 
     var data = [1,2,3,1,2,1,1,2,1,1,2,2] // example data extension for filling with white
-    
     //retrieve user's devices sorted by logged time
+
     User.findOne({userEmail : decoded.userEmail}, function(err, user){
         if(err){
             return res.status(400).send(JSON.stringify({'message':err}));                                
         }else{
             return res.status(200).send(JSON.stringify({'uv':data, 'colors':extend(user.colors, data)}))
+    */
+    Device.find({userEmail : decoded.userEmail}).sort({"loggedTime": "desc"}).limit(120).exec(function(err, devices){
+        if(err){
+            return res.status(400).send(JSON.stringify({'message':err}));                    
+        } else{
+	       console.log({uv:rawToUVI(devices),loggedTime:deviceLoggedTime(devices)});
+            return res.status(200).send( JSON.stringify( {uv:rawToUVI(devices),loggedTime:deviceLoggedTime(devices)} ) );            
         }
-    })
+    });
 })
 
 function extend(colors, data){
@@ -445,15 +451,29 @@ function extend(colors, data){
     return colors;
 }
 
+function deviceLoggedTime(devices){
+    var loggedtime = [];
+    for(var i = 0; i < devices.length; i++){
+        //UVI[i] = (Math.floor(devices[i].uv/746.666666666667));
+        loggedtime[i] = devices[i].loggedTime;
+    }
+	console.log(loggedtime);
+    return loggedtime;
+}
+
+
+
 function rawToUVI(devices){
     var UVI = [];
     for(var i = 0; i < devices.length; i++){
-        UVI.append(/* Conversion equation goes here */);
+        //UVI[i] = (Math.floor(devices[i].uv/746.666666666667));
+        UVI[i] = (devices[i].uv/746.666666666667);
     }
+	console.log(UVI);
     return UVI;
 }
 
-/* Save the colors of the graph */
+/* Save the colors of the graph (Alex's code for posting colors)*/
 router.post('/usersession/graph/colors', function(req, res, next){
     if (!req.headers["x-auth"] ) { 
         return res.status(401).json({error: "Missing X-Auth header"});
