@@ -424,21 +424,35 @@ router.get('/usersession/graph/data', function(req, res, next){
 	){    
         return res.status(400).send(JSON.stringify({'message': 'User is not logged in!'}));
     }
-    Device.find({userEmail : decoded.userEmail}).sort({"loggedTime": "desc"}).limit(1000).exec(function(err, devices){
+    Device.find({userEmail : decoded.userEmail}).sort({"loggedTime": "desc"}).limit(120).exec(function(err, devices){
         if(err){
             return res.status(400).send(JSON.stringify({'message':err}));                    
         } else{
-            return res.status(200).send( JSON.stringify( {uv:rawToUVI(devices)} ) );            
+	console.log({uv:rawToUVI(devices),loggedTime:deviceLoggedTime(devices)});
+            return res.status(200).send( JSON.stringify( {uv:rawToUVI(devices),loggedTime:deviceLoggedTime(devices)} ) );            
         }
     });
 })
+
+function deviceLoggedTime(devices){
+    var loggedtime = [];
+    for(var i = 0; i < devices.length; i++){
+        //UVI[i] = (Math.floor(devices[i].uv/746.666666666667));
+        loggedtime[i] = devices[i].loggedTime;
+    }
+	console.log(loggedtime);
+    return loggedtime;
+}
+
 
 
 function rawToUVI(devices){
     var UVI = [];
     for(var i = 0; i < devices.length; i++){
-        UVI[i] = (Math.floor(devices[i].uv/746.666666667));
+        //UVI[i] = (Math.floor(devices[i].uv/746.666666666667));
+        UVI[i] = (devices[i].uv/746.666666666667);
     }
+	console.log(UVI);
     return UVI;
 }
 
