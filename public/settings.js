@@ -117,6 +117,7 @@ function displayUserGraph(){
     //       success: 
     $.ajax({'url': '/users/usersession/graph/data',
             'type': 'get',
+	    'headers': {'x-auth': window.localStorage.getItem("token")}, 
             'dataType': 'json',
             'success': function(data){
                 console.log('data received!!!');
