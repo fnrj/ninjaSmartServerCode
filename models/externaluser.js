@@ -13,8 +13,6 @@ var externalUserSchema = new db.Schema({
 
 var ExternalUser = db.model("ExternalUser", externalUserSchema);
 
-//ExternalUser.remove({}, function(){});
-
 module.exports = ExternalUser;
 
 

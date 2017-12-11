@@ -27,7 +27,7 @@
             </div>
 	    </header>
 	    <!-- Container holding login/registration panels -->
-	    <div class = "container" id = "userData">
+	    <div class = "container guide" id = "userData">
             <h1>Change Password</h1>
             <form method="POST" action="users/updatePassword" id="changePass">
 				<label for="oldPassword">Enter Old Password:</label>
@@ -36,12 +36,12 @@
 			     <input type="password" name="newPassword1" id="newPassword1">
 				<label for="newPassword2">Enter New Password One More Time:</label>				    		
 			     <input type="password" name="newPassword2" id="newPassword2">
-			     <input type="submit" name="Submit" value="Update Password">			    		
+			     <input class = 'buttonLink' type="submit" name="Submit" value="Update Password">			    		
 			 </form>	
         
-            <h1>Your Device</h1>
+            <h1>Your UV Exposure</h1>
             <canvas id="graph" width=500 height=400 style='width:500px;height:400px'></canvas>
-            
+            <h1>Device Settings</h1>
             <div id = 'userDevices'></div>
             <form method="POST" action="users/addDevice" id="addDevice">
  			      <input type="text" name="newDevice" id="newDevice">	
